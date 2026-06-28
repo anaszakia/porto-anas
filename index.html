@@ -159,6 +159,7 @@
       box-shadow: var(--shadow-lg); font-size: .82rem; font-weight: 600;
       display: flex; align-items: center; gap: 10px;
       animation: float 4s ease-in-out infinite;
+      z-index: 10;
     }
     .float-card .fc-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--green-50); display: flex; align-items: center; justify-content: center; color: var(--green-700); font-size: 1rem; }
     .float-card .fc-val { font-size: 1.1rem; font-weight: 800; color: var(--green-700); }
@@ -168,6 +169,18 @@
     .fc-clean { bottom: 30px; right: 10px; animation-delay: .8s; font-size: .78rem; }
     .fc-clean .fc-icon { color: var(--green-400); }
     @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    /* Mobile: stat badges bawah foto, bukan overlay */
+    .hero-stats-mobile { display: none; }
+    .hero-stat-card {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--white); border-radius: var(--radius);
+      padding: 12px 18px; box-shadow: var(--shadow);
+      border: 1px solid var(--green-200);
+    }
+    .hero-stat-card .fc-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--green-50); display: flex; align-items: center; justify-content: center; color: var(--green-700); font-size: 1rem; flex-shrink: 0; }
+    .hero-stat-card .fc-val { font-size: 1.1rem; font-weight: 800; color: var(--green-700); }
+    .hero-stat-card .fc-label { font-size: .72rem; color: var(--text-muted); font-weight: 400; }
 
     /* ─── SECTION SHARED ─── */
     section { padding: 90px 6%; }
@@ -297,6 +310,179 @@
     .cta-title .accent { color: var(--green-600); }
     .cta-desc { color: var(--text-muted); font-size: .93rem; }
 
+    /* ===== EXPERIENCE / TIMELINE ===== */
+    .experience-wrap {
+      margin-top: 70px;
+    }
+
+    .timeline {
+      position: relative;
+      margin-top: 48px;
+      padding-left: 160px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 130px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--green-400), rgba(82,183,136,0.1));
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -37px;
+      top: 18px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--green-400);
+      border: 3px solid var(--surface);
+      box-shadow: 0 0 0 3px rgba(82,183,136,0.35);
+      z-index: 1;
+    }
+
+    .timeline-date {
+      position: absolute;
+      left: -160px;
+      top: 14px;
+      width: 115px;
+      text-align: right;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--green-600);
+      letter-spacing: .4px;
+      line-height: 1.4;
+    }
+
+    .timeline-card {
+      background: var(--white);
+      border: 1.5px solid rgba(82,183,136,.15);
+      border-radius: 16px;
+      padding: 20px 24px;
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--green-400);
+      border-radius: 4px 0 0 4px;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .timeline-card:hover {
+      transform: translateX(4px);
+      border-color: var(--green-400);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .timeline-card:hover::before {
+      opacity: 1;
+    }
+
+    .tc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .tc-role {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .tc-company {
+      font-size: .8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .tc-badge {
+      font-size: .68rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: var(--green-50);
+      color: var(--green-700);
+      white-space: nowrap;
+      border: 1.5px solid var(--green-200);
+      letter-spacing: .4px;
+      flex-shrink: 0;
+    }
+
+    .tc-badge--contract {
+      background: rgba(245,158,11,.08);
+      color: #d97706;
+      border-color: rgba(245,158,11,.3);
+    }
+
+    .tc-badge--intern {
+      background: rgba(16,185,129,.08);
+      color: #059669;
+      border-color: rgba(16,185,129,.3);
+    }
+
+    .tc-desc {
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin: 8px 0 14px;
+    }
+
+    .tc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tc-tags span {
+      font-size: .7rem;
+      font-weight: 500;
+      padding: 3px 11px;
+      border-radius: 20px;
+      background: var(--green-50);
+      color: var(--green-700);
+      border: 1.5px solid var(--green-200);
+      transition: all .2s;
+    }
+
+    .tc-tags span:hover {
+      background: var(--green-700);
+      color: var(--white);
+      border-color: var(--green-700);
+    }
+
+    @media (max-width: 600px) {
+      .timeline { padding-left: 36px; }
+      .timeline::before { left: 10px; }
+      .timeline-dot { left: -26px; top: 4px; }
+      .timeline-date {
+        position: static;
+        width: auto;
+        text-align: left;
+        margin-bottom: 6px;
+        display: block;
+      }
+    }
+
     /* ─── FOOTER ─── */
     footer {
       background: var(--green-900); color: rgba(255,255,255,.8);
@@ -340,13 +526,23 @@
     @media (max-width: 900px) {
       .nav-links, .nav-cta { display: none; }
       .nav-burger { display: block; }
-      #hero { grid-template-columns: 1fr; text-align: center; padding-top: 110px; }
+      #hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 100px;
+        padding-bottom: 60px;
+        gap: 32px;
+      }
       .hero-left { order: 2; display: flex; flex-direction: column; align-items: center; }
-      .hero-right { order: 1; margin: 0 auto; }
-      .hero-img-wrap { width: 280px; height: 340px; }
-      .fc-exp { top: 20px; right: -10px; }
-      .fc-proj { bottom: 40px; left: -10px; }
-      .fc-clean { display: none; }
+      .hero-right { order: 1; flex-direction: column; gap: 20px; }
+      .hero-img-wrap { width: 260px; height: 320px; }
+      /* Sembunyikan floating cards di mobile agar tidak nutup foto */
+      .fc-exp, .fc-proj, .fc-clean { display: none; }
+      /* Tampilkan versi card yang rapi di bawah foto */
+      .hero-stats-mobile {
+        display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+        width: 100%; margin-top: 4px;
+      }
       .about-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .stats-row { grid-template-columns: 1fr 1fr; }
@@ -355,12 +551,34 @@
     @media (max-width: 580px) {
       section { padding: 60px 5%; }
       #hero { padding-left: 5%; padding-right: 5%; }
-      .hero-img-wrap { width: 240px; height: 300px; }
-      .float-card { font-size: .75rem; padding: 10px 14px; }
+      .hero-img-wrap { width: 220px; height: 280px; }
+      .hero-name { font-size: clamp(2rem, 8vw, 2.6rem); }
+      .hero-actions { justify-content: center; }
+      .hero-socials { justify-content: center; }
       .projects-header { flex-direction: column; align-items: flex-start; }
       .footer-grid { grid-template-columns: 1fr; }
       .stats-row { grid-template-columns: 1fr; padding: 28px 24px; }
       #cta { flex-direction: column; text-align: center; }
+      /* Timeline mobile */
+      .timeline { padding-left: 28px; }
+      .timeline::before { left: 6px; }
+      .timeline-dot { left: -29px; top: 16px; width: 12px; height: 12px; }
+      .timeline-date {
+        position: static;
+        width: auto;
+        text-align: left;
+        margin-bottom: 6px;
+        display: block;
+        font-size: .7rem;
+      }
+      /* CTA mobile */
+      #cta { align-items: center; }
+      .cta-left { text-align: center; }
+      /* Footer mobile */
+      .footer-bottom { flex-direction: column; text-align: center; }
+      /* Stats mobile */
+      .hero-stats-mobile { gap: 8px; }
+      .hero-stat-card { padding: 10px 14px; }
     }
     @media (prefers-reduced-motion: reduce) {
       .float-card, .hero-badge .dot { animation: none; }
@@ -412,10 +630,10 @@
         <a href="#cta" class="btn-outline"><i class="fa-solid fa-paper-plane"></i> Hubungi Saya</a>
       </div>
       <div class="hero-socials">
-        <a href="#" title="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://github.com/anaszakia" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.tiktok.com/@anaswebdev?_r=1&_t=ZS-97ZhJdi3HNZ" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://www.instagram.com/_anaszakiaa?igsh=bXl5cm1hYXg4NHZm&utm_source=qr" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20tertarik%20dengan%20portfolio%20Anda." title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
     </div>
 
@@ -429,7 +647,7 @@
         </div>
       </div>
 
-      <!-- Floating badges -->
+      <!-- Floating badges (desktop only) -->
       <div class="float-card fc-exp">
         <div class="fc-icon"><i class="fa-solid fa-star"></i></div>
         <div>
@@ -449,6 +667,24 @@
         <div style="line-height:1.3">
           <div style="font-weight:700;font-size:.82rem;color:var(--green-700)">Clean Code</div>
           <div style="font-size:.7rem;color:var(--text-muted)">Scalable &amp; Modern</div>
+        </div>
+      </div>
+
+      <!-- Stats mobile (tampil di bawah foto, hanya mobile) -->
+      <div class="hero-stats-mobile">
+        <div class="hero-stat-card">
+          <div class="fc-icon"><i class="fa-solid fa-star"></i></div>
+          <div>
+            <div class="fc-val">3+</div>
+            <div class="fc-label">Tahun Experience</div>
+          </div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="fc-icon"><i class="fa-solid fa-layer-group"></i></div>
+          <div>
+            <div class="fc-val">10+</div>
+            <div class="fc-label">Project Selesai</div>
+          </div>
         </div>
       </div>
     </div>
@@ -704,6 +940,176 @@
           </div>
         </div>
       </div>
+      <!-- Card 15 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/biliard.png" alt="Booking Billiard" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
+          </div>
+          <div class="pc-title">Booking Billiard</div>
+          <div class="pc-desc">Aplikasi sistem booking untuk memudahkan proses pencatatan dan pengelolaan booking di tempat bermain billiard berbasis web.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/billiard_booking" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 16 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/etugas.png" alt="E-Tugas" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS · Fillament</span>
+          </div>
+          <div class="pc-title">Sistem E-Tugas</div>
+          <div class="pc-desc">Sistem yang digunakan untuk HR dalam memudahkan memberikan tugas atau pengawasan pekerjaan kepada karyawan.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/sistem_tugas" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 17 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/e-surat.png" alt="E-Surat" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS · Fillament</span>
+          </div>
+          <div class="pc-title">Sistem E-Surat</div>
+          <div class="pc-desc">Sistem manajemen surat adalah sebuah sistem yang digunakan untuk pembuatan surat secara elektronik serta sebagai sistem arsip surat masuk dan surat keluar.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/surat_desa" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 18 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/vendor.png" alt="Vendor" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
+          </div>
+          <div class="pc-title">Sistem Pendukung Keputusan Penentuan Vendor</div>
+          <div class="pc-desc">Sistem ini digunakan untuk instansi dalam mempermudah dalam penentuak pengadaan vendor secara otomatis berdasarkan penilaian sistem menggunakan metode SAW.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/sistem-vendor" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 19 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/course.png" alt="Course" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
+          </div>
+          <div class="pc-title">E-Course</div>
+          <div class="pc-desc">Sistem E-Course ini digunakan oleh lembaga pendidikan atau penyelenggara kursus dalam meudahkan pendaftaran dan memberikan pelajaran secara daring, sistem ini ter integrasi dengan payment gateway.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/course" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 20 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/purchasing.png" alt="Purchasing" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
+          </div>
+          <div class="pc-title">Sistem Purchasing</div>
+          <div class="pc-desc">Sistem ini digunakan untuk mengelola proses pengadaan barang atau jasa secara efisien dan transparan.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/purchase_order " class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 21 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/ruangan.png" alt="Ruangan" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
+          </div>
+          <div class="pc-title">Sistem Booking Ruang Meeting</div>
+          <div class="pc-desc">Sistem ini digunakan untuk mengelola proses booking ruang meeting secara efisien dan mudah digunakan.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/ruang-meeting" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 22 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/sales.png" alt="Sales" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
+          </div>
+          <div class="pc-title">Sistem Sales</div>
+          <div class="pc-desc">Aplikasi ini digunakan oleh Sales lapangan untuk memudahkan dalam melakukan pelaporan hasil penjualan ke departemen marketing.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/sales" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 23 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/stk.png" alt="STK" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
+          </div>
+          <div class="pc-title">Sistem Booking Kendaraan (Departemen Transport)</div>
+          <div class="pc-desc">Sistem ini digunakan untuk depertemen transport dalam mengelola jadwal kendaraan yang ada di perusahaan dan juga untuk memudahkan departemen lain dalam melakukan pemesanan kendaraan di depertemen transport.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/sistem_stk" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 24 -->
+      <div class="project-card reveal">
+        <div class="pc-thumb">
+          <img src="images/utility.png" alt="Utility" onerror="this.style.display='none';" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-meta">
+            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
+          </div>
+          <div class="pc-title">Sistem Helpdesk (Utility)</div>
+          <div class="pc-desc">Sistem ini digunakan untuk mengelola dan menyelesaikan keluhan serta permintaan dari pengguna internal perusahaan.</div>
+          <div class="pc-actions">
+            <a href="https://github.com/anaszakia/sistem_utility" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -749,6 +1155,10 @@
             <div class="sb-track"><div class="sb-fill" data-pct="92"></div></div>
           </div>
           <div class="skill-bar">
+            <div class="sb-header"><span class="sb-name"><span>Docker</span></span><span class="sb-pct">87%</span></div>
+            <div class="sb-track"><div class="sb-fill" data-pct="87"></div></div>
+          </div>
+          <div class="skill-bar">
             <div class="sb-header"><span class="sb-name"><span>CodeIgniter 4</span></span><span class="sb-pct">90%</span></div>
             <div class="sb-track"><div class="sb-fill" data-pct="90"></div></div>
           </div>
@@ -790,6 +1200,113 @@
         "Kode yang bersih adalah fondasi dari software yang hebat." — Anas
       </div>
     </div>
+    <!-- ✅ TAMBAHAN: Pengalaman Kerja -->
+    <div class="experience-wrap reveal">
+      <p class="section-eyebrow" style="text-align:center;">Perjalanan Karir</p>
+      <h2 class="section-title" style="text-align:center;">Pengalaman <span class="accent">Kerja</span></h2>
+
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2026 – Sekarang</div>
+          <div class="timeline-card">
+            <div class="tc-header">
+              <div>
+                <div class="tc-role">Programmer</div>
+                <div class="tc-company"><i class="fa-solid fa-building"></i> Universitas Islam Negeri Sunan Kudus</div>
+              </div>
+              <span class="tc-badge">Full-time</span>
+            </div>
+            <p class="tc-desc">
+              Mengembangkan dan memelihara sistem informasi akademik berbasis web menggunakan Laravel, CodeIgniter 4, dan Node.js. Bertanggung jawab atas arsitektur database, integrasi API, serta optimasi performa aplikasi.
+            </p>
+            <div class="tc-tags">
+              <span>CodeIgniter 4</span><span>PHP</span><span>Node.js</span><span>MySQL</span><span>Docker</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2025</div>
+          <div class="timeline-card">
+            <div class="tc-header">
+              <div>
+                <div class="tc-role">Staff Teknologi Informasi</div>
+                <div class="tc-company"><i class="fa-solid fa-building"></i> PT. Gading Gadjah Mada, Kudus</div>
+              </div>
+              <span class="tc-badge tc-badge--contract">Contract</span>
+            </div>
+            <p class="tc-desc">
+              Membangun fitur front-end dan back-end untuk aplikasi manajemen data internal. Terlibat dalam pengembangan Aplikasi Internal Perusahaan.
+            </p>
+            <div class="tc-tags">
+              <span>Laravel</span><span>PHP</span><span>JavaScript</span><span>REST API</span><span>Bootstrap</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2025</div>
+          <div class="timeline-card">
+            <div class="tc-header">
+              <div>
+                <div class="tc-role">Web Developer Internal</div>
+                <div class="tc-company"><i class="fa-solid fa-building"></i> CV. Aliansyah, Pati</div>
+              </div>
+              <span class="tc-badge tc-badge--intern">Full Time</span>
+            </div>
+            <p class="tc-desc">
+              Bekerja sebagai web developer, membantu tim dalam pembuatan Aplikasi dan pengembangan fitur sederhana pada sistem internal perusahaan.
+            </p>
+            <div class="tc-tags">
+              <span>Laravel</span><span>HTML</span><span>CSS</span><span>PHP</span><span>MySQL</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2024 - Sekarang</div>
+          <div class="timeline-card">
+            <div class="tc-header">
+              <div>
+                <div class="tc-role">Web Developer</div>
+                <div class="tc-company"><i class="fa-solid fa-building"></i> Freelance Web Developer</div>
+              </div>
+              <span class="tc-badge tc-badge--intern">Freelance</span>
+            </div>
+            <p class="tc-desc">
+              Bekerja sebagai freelance web developer, membantu perusahaan/perseorangan dalam pembuatan Aplikasi dan pengembangan fitur sederhana pada sistem berbasis web atau aplikasi mobile.
+            </p>
+            <div class="tc-tags">
+              <span>Laravel</span><span>HTML</span><span>CSS</span><span>PHP</span><span>MySQL</span><span>Flutter</span><span>Python</span><span>JavaScript</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2019 - 2023</div>
+          <div class="timeline-card">
+            <div class="tc-header">
+              <div>
+                <div class="tc-role">Pendidikan Sarjana Teknik Informatika</div>
+                <div class="tc-company"><i class="fa-solid fa-building"></i> Universitas Semarang, Kota Semarang</div>
+              </div>
+              <span class="tc-badge tc-badge--intern">S1</span>
+            </div>
+            <p class="tc-desc">
+              Menempuh pendidikan Sarjana Teknik Informatika.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ✅ END Pengalaman Kerja -->
   </section>
 
   <!-- CTA -->
@@ -819,10 +1336,10 @@
         <div class="nav-logo"><i class="fa-solid fa-code"></i> <span style="color:var(--green-400)">Anas</span>Dev</div>
         <p>Membangun teknologi, menciptakan solusi, memberi dampak.</p>
         <div class="footer-socials">
-          <a href="#" title="GitHub"><i class="fa-brands fa-github"></i></a>
-          <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://github.com/anaszakia" title="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.tiktok.com/@anaswebdev?_r=1&_t=ZS-97ZhJdi3HNZ" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://www.instagram.com/_anaszakiaa?igsh=bXl5cm1hYXg4NHZm&utm_source=qr" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20tertarik%20dengan%20portfolio%20Anda." title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer-col">
