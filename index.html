@@ -1,1445 +1,1683 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anas Zakia Ardhan — Fullstack Developer</title>
+  <title>Anas Zakia Ardhan — Senior Fullstack Web Developer & Software Solution Partner</title>
+  <meta name="description"
+    content="Jasa Pembuatan Web Aplikasi, Sistem Informasi Enterprise & Software Custom Berkinerja Tinggi. Spesialis Laravel, CodeIgniter, ReactJS, Python, RESTful API, Docker & Database Architecture." />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    /* ─── TOKENS ─── */
-    :root {
-      --green-900: #0D2B1D;
-      --green-700: #1B4332;
-      --green-600: #2D6A4F;
-      --green-400: #52B788;
-      --green-200: #B7E4C7;
-      --green-50:  #F0FAF4;
-      --white:     #FFFFFF;
-      --surface:   #F8FAF8;
-      --text:      #1A1A2E;
-      --text-muted:#5A6473;
-      --radius:    14px;
-      --shadow:    0 4px 24px rgba(27,67,50,.10);
-      --shadow-lg: 0 12px 48px rgba(27,67,50,.16);
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Theme Initializer to prevent flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
 
-    /* ─── RESET ─── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Poppins', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
-    a { text-decoration: none; color: inherit; }
-    img { max-width: 100%; display: block; }
-    ul { list-style: none; }
-
-    /* ─── SCROLLBAR ─── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--surface); }
-    ::-webkit-scrollbar-thumb { background: var(--green-400); border-radius: 99px; }
-
-    /* ─── NAV ─── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 6%; background: rgba(255,255,255,.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(82,183,136,.15);
-      transition: box-shadow .3s;
-    }
-    nav.scrolled { box-shadow: var(--shadow); }
-    .nav-logo {
-      display: flex; align-items: center; gap: 8px;
-      font-weight: 700; font-size: 1.15rem; color: var(--green-700);
-    }
-    .nav-logo span { color: var(--green-400); }
-    .nav-links { display: flex; gap: 36px; }
-    .nav-links a { font-size: .9rem; font-weight: 500; color: var(--text-muted); transition: color .2s; position: relative; }
-    .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; right:0; height:2px; background:var(--green-400); transform:scaleX(0); transition:transform .25s; }
-    .nav-links a:hover { color: var(--green-700); }
-    .nav-links a:hover::after { transform:scaleX(1); }
-    .nav-cta {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 24px; border-radius: 99px;
-      background: var(--green-700); color: var(--white);
-      font-size: .88rem; font-weight: 600;
-      transition: background .2s, transform .2s;
-    }
-    .nav-cta:hover { background: var(--green-600); transform: translateY(-1px); }
-    .nav-burger { display: none; font-size: 1.4rem; cursor: pointer; color: var(--green-700); }
-
-    /* ─── HERO ─── */
-    #hero {
-      min-height: 100vh; padding-top: 90px;
-      display: grid; grid-template-columns: 1fr 1fr;
-      align-items: center; gap: 40px; padding-left: 6%; padding-right: 6%;
-      background: var(--surface);
-      position: relative; overflow: hidden;
-    }
-    #hero::before {
-      content: '';
-      position: absolute; top: -120px; right: -120px;
-      width: 520px; height: 520px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(82,183,136,.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    #hero::after {
-      content: '';
-      position: absolute; bottom: -80px; left: 10%;
-      width: 320px; height: 320px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(82,183,136,.10) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-left { position: relative; z-index: 1; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 18px; border-radius: 99px;
-      background: var(--white); border: 1px solid var(--green-200);
-      font-size: .82rem; font-weight: 500; color: var(--green-700);
-      margin-bottom: 24px; box-shadow: var(--shadow);
-    }
-    .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-400); animation: pulse 1.8s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
-    .hero-name { font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
-    .hero-name .accent { color: var(--green-600); }
-    .hero-role {
-      font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 600;
-      color: var(--text-muted); margin-bottom: 16px;
-    }
-    .hero-role .typed-text { color: var(--green-600); }
-    .hero-desc { font-size: .95rem; color: var(--text-muted); line-height: 1.7; max-width: 460px; margin-bottom: 36px; }
-    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 30px; border-radius: 99px;
-      background: var(--green-700); color: var(--white);
-      font-size: .9rem; font-weight: 600;
-      transition: all .25s; box-shadow: 0 4px 16px rgba(27,67,50,.25);
-    }
-    .btn-primary:hover { background: var(--green-600); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(27,67,50,.3); }
-    .btn-outline {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 30px; border-radius: 99px;
-      border: 2px solid var(--green-700); color: var(--green-700);
-      font-size: .9rem; font-weight: 600;
-      transition: all .25s;
-    }
-    .btn-outline:hover { background: var(--green-700); color: var(--white); transform: translateY(-2px); }
-    .hero-socials { display: flex; gap: 16px; }
-    .hero-socials a {
-      width: 40px; height: 40px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      border: 1.5px solid var(--green-200); color: var(--green-700);
-      font-size: 1rem; transition: all .2s;
-    }
-    .hero-socials a:hover { background: var(--green-700); color: var(--white); border-color: var(--green-700); transform: translateY(-2px); }
-
-    /* Hero Right */
-    .hero-right { position: relative; display: flex; justify-content: center; align-items: center; }
-    .hero-img-wrap {
-      position: relative; width: 380px; height: 480px;
-      border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
-      background: linear-gradient(145deg, var(--green-600), var(--green-700));
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
-    .hero-img-wrap img {
-      width: 100%; height: 100%; object-fit: cover; object-position: top;
-    }
-    .hero-img-wrap .img-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 12px; color: rgba(255,255,255,.7); font-size: .85rem; text-align: center; padding: 24px;
-    }
-    .hero-img-wrap .img-placeholder i { font-size: 3rem; color: rgba(255,255,255,.5); }
-    /* Floating cards */
-    .float-card {
-      position: absolute; background: var(--white);
-      border-radius: var(--radius); padding: 14px 20px;
-      box-shadow: var(--shadow-lg); font-size: .82rem; font-weight: 600;
-      display: flex; align-items: center; gap: 10px;
-      animation: float 4s ease-in-out infinite;
-      z-index: 10;
-    }
-    .float-card .fc-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--green-50); display: flex; align-items: center; justify-content: center; color: var(--green-700); font-size: 1rem; }
-    .float-card .fc-val { font-size: 1.1rem; font-weight: 800; color: var(--green-700); }
-    .float-card .fc-label { font-size: .72rem; color: var(--text-muted); font-weight: 400; }
-    .fc-exp { top: 60px; right: -20px; animation-delay: 0s; }
-    .fc-proj { bottom: 80px; left: -30px; animation-delay: 1.5s; }
-    .fc-clean { bottom: 30px; right: 10px; animation-delay: .8s; font-size: .78rem; }
-    .fc-clean .fc-icon { color: var(--green-400); }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-
-    /* Mobile: stat badges bawah foto, bukan overlay */
-    .hero-stats-mobile { display: none; }
-    .hero-stat-card {
-      display: flex; align-items: center; gap: 10px;
-      background: var(--white); border-radius: var(--radius);
-      padding: 12px 18px; box-shadow: var(--shadow);
-      border: 1px solid var(--green-200);
-    }
-    .hero-stat-card .fc-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--green-50); display: flex; align-items: center; justify-content: center; color: var(--green-700); font-size: 1rem; flex-shrink: 0; }
-    .hero-stat-card .fc-val { font-size: 1.1rem; font-weight: 800; color: var(--green-700); }
-    .hero-stat-card .fc-label { font-size: .72rem; color: var(--text-muted); font-weight: 400; }
-
-    /* ─── SECTION SHARED ─── */
-    section { padding: 90px 6%; }
-    .section-eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--green-400); margin-bottom: 12px; }
-    .section-title { font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 12px; }
-    .section-title .accent { color: var(--green-600); }
-    .section-sub { font-size: .93rem; color: var(--text-muted); max-width: 520px; }
-
-    /* ─── PROJECTS ─── */
-    #projects { background: var(--white); }
-    .projects-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; flex-wrap: wrap; gap: 16px; }
-    .see-all { font-size: .88rem; font-weight: 600; color: var(--green-700); display: flex; align-items: center; gap: 6px; }
-    .see-all:hover { color: var(--green-400); }
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
-    .project-card {
-      border-radius: var(--radius); overflow: hidden;
-      border: 1.5px solid rgba(82,183,136,.15);
-      background: var(--white); transition: all .3s;
-      position: relative;
-    }
-    .project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--green-400); }
-    .pc-thumb {
-      background: var(--green-900);
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden; position: relative;
-    }
-    .pc-thumb img {
-      width: 100%; height: auto;
-      display: block;
-      object-fit: unset;
-      transition: transform .4s;
-    }
-    .project-card:hover .pc-thumb img { transform: scale(1.03); }
-    .pc-thumb .pc-thumb-placeholder { color: rgba(255,255,255,.3); font-size: 3rem; }
-    .pc-body { padding: 20px; }
-    .pc-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-    .pc-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 12px; border-radius: 99px;
-      font-size: .72rem; font-weight: 700;
-      background: var(--green-50); color: var(--green-700);
-      border: 1.5px solid var(--green-200);
-    }
-    .pc-badge i { font-size: .7rem; }
-    .pc-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
-    .pc-desc { font-size: .83rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 18px; }
-    .pc-actions {
-      display: flex; align-items: center; gap: 10px;
-      padding-top: 14px; border-top: 1px solid rgba(82,183,136,.12);
-    }
-    .pc-btn {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 8px 16px; border-radius: 99px; font-size: .8rem; font-weight: 600;
-      transition: all .2s; cursor: pointer;
-    }
-    .pc-btn-gh {
-      background: var(--green-700); color: var(--white);
-      border: 1.5px solid var(--green-700);
-    }
-    .pc-btn-gh:hover { background: var(--green-900); border-color: var(--green-900); transform: translateY(-1px); }
-    .pc-btn-live {
-      background: transparent; color: var(--green-700);
-      border: 1.5px solid var(--green-200);
-    }
-    .pc-btn-live:hover { background: var(--green-50); border-color: var(--green-400); transform: translateY(-1px); }
-
-    /* ─── ABOUT + SKILLS ─── */
-    #about { background: var(--surface); }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
-    .about-img-wrap {
-      position: relative; border-radius: 24px; overflow: hidden;
-      height: 420px; background: linear-gradient(135deg, var(--green-700), var(--green-600));
-    }
-    .about-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .about-img-wrap .img-placeholder2 {
-      width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 16px; color: rgba(255,255,255,.6); text-align: center; padding: 24px;
-    }
-    .about-img-wrap .img-placeholder2 i { font-size: 4rem; color: rgba(255,255,255,.4); }
-    .about-tag {
-      position: absolute; bottom: 24px; left: 24px;
-      background: var(--white); border-radius: var(--radius);
-      padding: 14px 20px; display: flex; align-items: center; gap: 12px;
-      box-shadow: var(--shadow);
-    }
-    .about-tag .tag-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--green-50); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--green-700); }
-    .about-tag .tag-val { font-size: 1.3rem; font-weight: 800; color: var(--green-700); }
-    .about-tag .tag-label { font-size: .75rem; color: var(--text-muted); }
-    .about-checks { margin: 20px 0 28px; display: flex; flex-direction: column; gap: 10px; }
-    .check-item { display: flex; align-items: center; gap: 10px; font-size: .9rem; font-weight: 500; }
-    .check-item i { color: var(--green-400); font-size: 1rem; }
-    /* Skills */
-    .skills-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; color: var(--green-700); }
-    .skill-bars { display: flex; flex-direction: column; gap: 14px; }
-    .skill-bar { }
-    .sb-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-    .sb-name { display: flex; align-items: center; gap: 8px; font-size: .88rem; font-weight: 600; }
-    .sb-name img { width: 18px; height: 18px; object-fit: contain; }
-    .sb-pct { font-size: .82rem; font-weight: 700; color: var(--green-600); }
-    .sb-track { height: 7px; border-radius: 99px; background: var(--green-200); overflow: hidden; }
-    .sb-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--green-600), var(--green-400)); transition: width 1.2s cubic-bezier(.4,0,.2,1); width: 0; }
-
-    /* ─── STATS CARD ─── */
-    .stats-row {
-      background: var(--green-700); border-radius: 24px;
-      padding: 36px 40px; display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 24px; text-align: center; margin-top: 60px;
-    }
-    .stat-item {}
-    .stat-val { font-size: 2.4rem; font-weight: 800; color: var(--white); }
-    .stat-label { font-size: .83rem; color: rgba(255,255,255,.65); margin-top: 4px; }
-    .stat-quote {
-      grid-column: 1 / -1;
-      border-top: 1px solid rgba(255,255,255,.15); padding-top: 24px; margin-top: 8px;
-      font-size: .9rem; color: rgba(255,255,255,.75); font-style: italic; line-height: 1.6;
-    }
-
-    /* ─── CTA STRIP ─── */
-    #cta {
-      background: var(--surface); padding: 80px 6%;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 40px; flex-wrap: wrap;
-    }
-    .cta-left { }
-    .cta-icon { font-size: 3rem; margin-bottom: 16px; }
-    .cta-title { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 8px; }
-    .cta-title .accent { color: var(--green-600); }
-    .cta-desc { color: var(--text-muted); font-size: .93rem; }
-
-    /* ===== EXPERIENCE / TIMELINE ===== */
-    .experience-wrap {
-      margin-top: 70px;
-    }
-
-    .timeline {
-      position: relative;
-      margin-top: 48px;
-      padding-left: 160px;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 130px;
-      top: 0; bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--green-400), rgba(82,183,136,0.1));
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 28px;
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: -37px;
-      top: 18px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--green-400);
-      border: 3px solid var(--surface);
-      box-shadow: 0 0 0 3px rgba(82,183,136,0.35);
-      z-index: 1;
-    }
-
-    .timeline-date {
-      position: absolute;
-      left: -160px;
-      top: 14px;
-      width: 115px;
-      text-align: right;
-      font-size: .72rem;
-      font-weight: 700;
-      color: var(--green-600);
-      letter-spacing: .4px;
-      line-height: 1.4;
-    }
-
-    .timeline-card {
-      background: var(--white);
-      border: 1.5px solid rgba(82,183,136,.15);
-      border-radius: 16px;
-      padding: 20px 24px;
-      transition: all .3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .timeline-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 4px; height: 100%;
-      background: var(--green-400);
-      border-radius: 4px 0 0 4px;
-      opacity: 0;
-      transition: opacity .3s;
-    }
-
-    .timeline-card:hover {
-      transform: translateX(4px);
-      border-color: var(--green-400);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .timeline-card:hover::before {
-      opacity: 1;
-    }
-
-    .tc-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
-    .tc-role {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .tc-company {
-      font-size: .8rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .tc-badge {
-      font-size: .68rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: var(--green-50);
-      color: var(--green-700);
-      white-space: nowrap;
-      border: 1.5px solid var(--green-200);
-      letter-spacing: .4px;
-      flex-shrink: 0;
-    }
-
-    .tc-badge--contract {
-      background: rgba(245,158,11,.08);
-      color: #d97706;
-      border-color: rgba(245,158,11,.3);
-    }
-
-    .tc-badge--intern {
-      background: rgba(16,185,129,.08);
-      color: #059669;
-      border-color: rgba(16,185,129,.3);
-    }
-
-    .tc-desc {
-      font-size: .85rem;
-      color: var(--text-muted);
-      line-height: 1.75;
-      margin: 8px 0 14px;
-    }
-
-    .tc-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .tc-tags span {
-      font-size: .7rem;
-      font-weight: 500;
-      padding: 3px 11px;
-      border-radius: 20px;
-      background: var(--green-50);
-      color: var(--green-700);
-      border: 1.5px solid var(--green-200);
-      transition: all .2s;
-    }
-
-    .tc-tags span:hover {
-      background: var(--green-700);
-      color: var(--white);
-      border-color: var(--green-700);
-    }
-
-    @media (max-width: 600px) {
-      .timeline { padding-left: 36px; }
-      .timeline::before { left: 10px; }
-      .timeline-dot { left: -26px; top: 4px; }
-      .timeline-date {
-        position: static;
-        width: auto;
-        text-align: left;
-        margin-bottom: 6px;
-        display: block;
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+              950: '#052e16',
+            },
+            dark: {
+              900: '#090e17',
+              850: '#0d1524',
+              800: '#111c30',
+              700: '#1e293b',
+              600: '#334155',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
       }
     }
+  </script>
 
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--green-900); color: rgba(255,255,255,.8);
-      padding: 60px 6% 32px;
-    }
-    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
-    .footer-brand .nav-logo { color: var(--white); font-size: 1.2rem; margin-bottom: 14px; }
-    .footer-brand p { font-size: .84rem; line-height: 1.7; color: rgba(255,255,255,.55); max-width: 240px; }
-    .footer-socials { display: flex; gap: 12px; margin-top: 20px; }
-    .footer-socials a {
-      width: 36px; height: 36px; border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,.2); color: rgba(255,255,255,.6);
-      display: flex; align-items: center; justify-content: center; font-size: .9rem;
-      transition: all .2s;
-    }
-    .footer-socials a:hover { background: var(--green-600); border-color: var(--green-600); color: var(--white); }
-    .footer-col h4 { font-size: .88rem; font-weight: 700; color: var(--white); margin-bottom: 18px; letter-spacing: .04em; }
-    .footer-col ul li { margin-bottom: 10px; }
-    .footer-col ul li a { font-size: .83rem; color: rgba(255,255,255,.5); transition: color .2s; display: flex; align-items: center; gap: 6px; }
-    .footer-col ul li a:hover { color: var(--green-400); }
-    .footer-col ul li a i { font-size: .75rem; }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: .8rem; color: rgba(255,255,255,.35); flex-wrap: wrap; gap: 12px;
-    }
-    .footer-bottom span { display: flex; align-items: center; gap: 6px; }
-    .footer-bottom .heart { color: #e74c3c; }
-
-    /* ─── REVEAL ANIMATION ─── */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s, transform .65s; }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    /* ─── MOBILE NAV MENU ─── */
-    .nav-mobile { display: none; flex-direction: column; gap: 0; position: fixed; top: 72px; left: 0; right: 0; background: var(--white); z-index: 99; border-bottom: 1px solid var(--green-200); }
-    .nav-mobile.open { display: flex; }
-    .nav-mobile a { padding: 16px 6%; font-weight: 500; font-size: .95rem; border-bottom: 1px solid var(--green-50); color: var(--text); }
-    .nav-mobile a:hover { color: var(--green-700); background: var(--surface); }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      .nav-links, .nav-cta { display: none; }
-      .nav-burger { display: block; }
-      #hero {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding-top: 100px;
-        padding-bottom: 60px;
-        gap: 32px;
-      }
-      .hero-left { order: 2; display: flex; flex-direction: column; align-items: center; }
-      .hero-right { order: 1; flex-direction: column; gap: 20px; }
-      .hero-img-wrap { width: 260px; height: 320px; }
-      /* Sembunyikan floating cards di mobile agar tidak nutup foto */
-      .fc-exp, .fc-proj, .fc-clean { display: none; }
-      /* Tampilkan versi card yang rapi di bawah foto */
-      .hero-stats-mobile {
-        display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-        width: 100%; margin-top: 4px;
-      }
-      .about-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .stats-row { grid-template-columns: 1fr 1fr; }
-      .stat-quote { grid-column: 1 / -1; }
-    }
-    @media (max-width: 580px) {
-      section { padding: 60px 5%; }
-      #hero { padding-left: 5%; padding-right: 5%; }
-      .hero-img-wrap { width: 220px; height: 280px; }
-      .hero-name { font-size: clamp(2rem, 8vw, 2.6rem); }
-      .hero-actions { justify-content: center; }
-      .hero-socials { justify-content: center; }
-      .projects-header { flex-direction: column; align-items: flex-start; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .stats-row { grid-template-columns: 1fr; padding: 28px 24px; }
-      #cta { flex-direction: column; text-align: center; }
-      /* Timeline mobile */
-      .timeline { padding-left: 28px; }
-      .timeline::before { left: 6px; }
-      .timeline-dot { left: -29px; top: 16px; width: 12px; height: 12px; }
-      .timeline-date {
-        position: static;
-        width: auto;
-        text-align: left;
-        margin-bottom: 6px;
-        display: block;
-        font-size: .7rem;
-      }
-      /* CTA mobile */
-      #cta { align-items: center; }
-      .cta-left { text-align: center; }
-      /* Footer mobile */
-      .footer-bottom { flex-direction: column; text-align: center; }
-      /* Stats mobile */
-      .hero-stats-mobile { gap: 8px; }
-      .hero-stat-card { padding: 10px 14px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .float-card, .hero-badge .dot { animation: none; }
-    }
-  </style>
+  <!-- External Modular Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
 
-  <!-- NAV -->
-  <nav id="navbar">
-    <div class="nav-logo">
-      <i class="fa-solid fa-code"></i>
-      <span>Anas</span>Dev
-    </div>
-    <ul class="nav-links">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#cta">Contact</a></li>
+<body
+  class="bg-slate-50 dark:bg-dark-900 text-slate-800 dark:text-slate-100 min-h-screen relative overflow-x-hidden selection:bg-brand-500/30 selection:text-brand-600 dark:selection:text-brand-300 transition-colors duration-300">
+
+  <!-- Ambient Light Orbs -->
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+  <div class="ambient-glow-3"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4 lg:px-16 flex items-center justify-between backdrop-blur-xl bg-white/80 dark:bg-dark-900/80 border-b border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none">
+    <a href="#hero" class="flex items-center gap-3 group">
+      <div
+        class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-white dark:text-dark-900 shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform duration-300">
+        <i class="fa-solid fa-code text-lg font-black"></i>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+          Anas<span class="text-brand-600 dark:text-brand-400">Dev</span>
+        </span>
+        <span class="text-[10px] tracking-wider text-slate-500 dark:text-slate-400 font-mono uppercase">Fullstack & Solution Partner</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <ul class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
+      <li><a href="#hero" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors py-1">Beranda</a></li>
+      <li><a href="#skills" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors py-1">Solusi & Keahlian</a></li>
+      <li><a href="#projects" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors py-1">Hasil Karya</a></li>
+      <li><a href="#experience" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors py-1">Pengalaman</a></li>
+      <li><a href="#about" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors py-1">Tentang Saya</a></li>
+      <li><a href="#cta" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors py-1">Hubungi</a></li>
     </ul>
-    <a class="nav-cta" href="images/CV.pdf" download>
-      <i class="fa-solid fa-download"></i> Download CV
-    </a>
-    <div class="nav-burger" id="burger"><i class="fa-solid fa-bars"></i></div>
+
+    <!-- Action Buttons & Theme Switcher -->
+    <div class="flex items-center gap-3">
+      
+      <!-- Theme Switcher Button (Desktop & Mobile) -->
+      <button id="themeToggleBtn" aria-label="Toggle Light and Dark Mode" class="theme-toggle-btn" title="Ganti Tema Light / Dark">
+        <i class="fa-solid fa-sun text-lg hidden dark:inline-block"></i>
+        <i class="fa-solid fa-moon text-lg inline-block dark:hidden"></i>
+      </button>
+
+      <!-- Desktop CV & Contact -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="images/CV.pdf" download
+          class="btn-glow-outline !py-2.5 !px-5 !text-xs uppercase tracking-wider font-mono">
+          <i class="fa-solid fa-file-arrow-down"></i> Unduh CV
+        </a>
+        <a href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20ingin%20konsultasi%20projek%20aplikasi%20web%20untuk%20kebutuhan%20bisnis%20saya."
+          target="_blank" class="btn-glow-primary !py-2.5 !px-5 !text-xs uppercase tracking-wider font-mono">
+          <i class="fa-brands fa-whatsapp text-sm"></i> Konsultasi Gratis
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button id="burger" aria-label="Toggle Mobile Menu"
+        class="md:hidden w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-slate-700 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+        <i class="fa-solid fa-bars-staggered text-lg"></i>
+      </button>
+    </div>
   </nav>
-  <div class="nav-mobile" id="navMobile">
-    <a href="#hero">Home</a>
-    <a href="#projects">Projects</a>
-    <a href="#about">About</a>
-    <a href="#cta">Contact</a>
-    <a href="images/CV.pdf" download>Download CV</a>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="navMobile"
+    class="fixed inset-x-0 top-[73px] bg-white/95 dark:bg-dark-900/95 backdrop-blur-2xl border-b border-slate-200 dark:border-slate-800 z-40 px-6 py-6 flex flex-col gap-4 transform -translate-y-full opacity-0 pointer-events-none transition-all duration-300 md:hidden shadow-xl dark:shadow-none">
+    <a href="#hero"
+      class="mobile-nav-link text-lg font-medium text-slate-800 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 py-2 border-b border-slate-100 dark:border-slate-800/60">Beranda</a>
+    <a href="#skills"
+      class="mobile-nav-link text-lg font-medium text-slate-800 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 py-2 border-b border-slate-100 dark:border-slate-800/60">Solusi
+      &amp; Keahlian</a>
+    <a href="#projects"
+      class="mobile-nav-link text-lg font-medium text-slate-800 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 py-2 border-b border-slate-100 dark:border-slate-800/60">Hasil Karya</a>
+    <a href="#experience"
+      class="mobile-nav-link text-lg font-medium text-slate-800 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 py-2 border-b border-slate-100 dark:border-slate-800/60">Pengalaman</a>
+    <a href="#about"
+      class="mobile-nav-link text-lg font-medium text-slate-800 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 py-2 border-b border-slate-100 dark:border-slate-800/60">Tentang Saya</a>
+    <a href="#cta"
+      class="mobile-nav-link text-lg font-medium text-slate-800 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 py-2 border-b border-slate-100 dark:border-slate-800/60">Kontak</a>
+    <div class="flex flex-col gap-3 pt-2">
+      <a href="images/CV.pdf" download class="btn-glow-outline text-center justify-center !py-3">
+        <i class="fa-solid fa-download"></i> Unduh Resume CV (PDF)
+      </a>
+      <a href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20ingin%20konsultasi%20projek%20aplikasi%20web%20untuk%20kebutuhan%20bisnis%20saya."
+        target="_blank" class="btn-glow-primary text-center justify-center !py-3">
+        <i class="fa-brands fa-whatsapp text-lg"></i> Konsultasi Projek via WhatsApp
+      </a>
+    </div>
   </div>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-left">
-      <div class="hero-badge">
-        <span class="dot"></span> Tersedia untuk project baru
+  <!-- HERO SECTION -->
+  <section id="hero"
+    class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 px-6 lg:px-16 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-8">
+    <div class="flex-1 space-y-6 text-center lg:text-left z-10">
+
+      <!-- Available Badge -->
+      <div
+        class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 border border-brand-500/30 text-xs font-semibold text-brand-700 dark:text-brand-300 shadow-md dark:shadow-xl backdrop-blur-md">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400 badge-radar-dot"></span>
+        <span>Siap Membantu Projek Baru &amp; Kerjasama Tim</span>
       </div>
-      <h1 class="hero-name">Halo, Saya<br><span class="accent">Fullstack</span><br>Developer</h1>
-      <p class="hero-role">
-        <span class="typed-text" id="typedRole">PHP &amp; Laravel</span> · Web Dev · ML Integration
-      </p>
-      <p class="hero-desc">
-        Saya membangun sistem web modern yang efisien, scalable, dan berfokus pada pengalaman pengguna — dari backend API hingga antarmuka yang intuitif.
-      </p>
-      <div class="hero-actions">
-        <a href="#projects" class="btn-primary"><i class="fa-solid fa-folder-open"></i> Lihat Projek</a>
-        <a href="#cta" class="btn-outline"><i class="fa-solid fa-paper-plane"></i> Hubungi Saya</a>
+
+      <!-- Headline -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] text-slate-900 dark:text-white">
+        Akselerasi Bisnis Anda dengan <br class="hidden sm:inline" />
+        <span class="gradient-text">Aplikasi Web Cepat, Aman,</span> &amp; Skalabel.
+      </h1>
+
+      <!-- Dynamic Typed Role -->
+      <div class="text-lg sm:text-xl font-mono text-slate-700 dark:text-slate-300 flex items-center justify-center lg:justify-start gap-2">
+        <span class="text-brand-600 dark:text-brand-400 font-semibold">&gt;</span>
+        <span id="typedRole" class="text-emerald-600 dark:text-emerald-400 font-bold border-r-2 border-emerald-500 dark:border-emerald-400 pr-1 animate-pulse">Laravel
+          / PHP</span>
       </div>
-      <div class="hero-socials">
-        <a href="https://github.com/anaszakia" title="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.tiktok.com/@anaswebdev?_r=1&_t=ZS-97ZhJdi3HNZ" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="https://www.instagram.com/_anaszakiaa?igsh=bXl5cm1hYXg4NHZm&utm_source=qr" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20tertarik%20dengan%20portfolio%20Anda." title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
+      <!-- Description -->
+      <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+        Ubah alur kerja manual menjadi sistem digital otomatis yang menghemat waktu dan biaya. Saya <span class="text-slate-900 dark:text-white font-semibold">Anas Zakia Ardhan</span>, <strong
+          class="text-brand-700 dark:text-brand-300 font-semibold">Senior Fullstack Developer &amp; System Analyst</strong>, siap mewujudkan website kustom, sistem enterprise, hingga integrasi API berkecepatan tinggi dengan jaminan kode berkualitas dan arsitektur kokoh.
+      </p>
+
+      <!-- CTA Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+        <a href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20ingin%20konsultasi%20kebutuhan%20sistem%20digital%20saya."
+          target="_blank" rel="noopener noreferrer" class="btn-glow-primary">
+          <i class="fa-brands fa-whatsapp text-lg"></i> Konsultasi Solusi Gratis
+        </a>
+        <a href="#projects" class="btn-glow-outline">
+          <i class="fa-solid fa-briefcase"></i> Lihat Hasil Projek
+        </a>
+      </div>
+
+      <!-- Social Links & Quick Contact -->
+      <div class="pt-4 flex items-center justify-center lg:justify-start gap-4">
+        <span class="text-xs font-mono uppercase text-slate-500 tracking-wider">Terhubung:</span>
+        <a href="https://github.com/anaszakia" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+          title="GitHub Repository"
+          class="w-10 h-10 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white hover:border-brand-500 transition-all duration-300 hover:-translate-y-1 shadow-sm dark:shadow-md">
+          <i class="fa-brands fa-github text-lg"></i>
+        </a>
+        <a href="https://gitlab.com/rusdianto" target="_blank" rel="noopener noreferrer" aria-label="GitLab"
+          title="GitLab Portfolio"
+          class="w-10 h-10 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-orange-500 hover:border-orange-500 transition-all duration-300 hover:-translate-y-1 shadow-sm dark:shadow-md">
+          <i class="fa-brands fa-gitlab text-lg"></i>
+        </a>
+        <a href="https://www.tiktok.com/@anaswebdev?_r=1&_t=ZS-97ZhJdi3HNZ" target="_blank" rel="noopener noreferrer"
+          aria-label="TikTok" title="Edukasi & Tips Coding di TikTok"
+          class="w-10 h-10 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-pink-500 hover:border-pink-500 transition-all duration-300 hover:-translate-y-1 shadow-sm dark:shadow-md">
+          <i class="fa-brands fa-tiktok text-lg"></i>
+        </a>
+        <a href="https://www.instagram.com/_anaszakiaa?igsh=bXl5cm1hYXg4NHZm&utm_source=qr" target="_blank"
+          rel="noopener noreferrer" aria-label="Instagram" title="Instagram Profil"
+          class="w-10 h-10 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-purple-500 hover:border-purple-500 transition-all duration-300 hover:-translate-y-1 shadow-sm dark:shadow-md">
+          <i class="fa-brands fa-instagram text-lg"></i>
+        </a>
+        <a href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20tertarik%20dengan%20portfolio%20Anda."
+          target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="Direct WhatsApp"
+          class="w-10 h-10 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-emerald-500 hover:border-emerald-500 transition-all duration-300 hover:-translate-y-1 shadow-sm dark:shadow-md">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+        </a>
       </div>
     </div>
 
-    <div class="hero-right">
-      <div class="hero-img-wrap">
-        <!-- Ganti src dengan foto kamu: images/hero.jpg -->
-        <img src="images/anas.JPG" alt="Foto profil" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="img-placeholder" style="display:none">
-          <i class="fa-solid fa-user-tie"></i>
-          <span>Taruh foto kamu di<br><code>images/anas.JPG</code></span>
-        </div>
-      </div>
+    <!-- Hero Image + Floating Metric Badges -->
+    <div class="flex-1 flex justify-center relative w-full max-w-md lg:max-w-none">
+      <div class="relative w-72 h-80 sm:w-80 sm:h-96 lg:w-[380px] lg:h-[460px]">
 
-      <!-- Floating badges (desktop only) -->
-      <div class="float-card fc-exp">
-        <div class="fc-icon"><i class="fa-solid fa-star"></i></div>
-        <div>
-          <div class="fc-val">3+</div>
-          <div class="fc-label">Tahun Experience</div>
+        <!-- Glow Backing -->
+        <div
+          class="absolute inset-0 bg-gradient-to-tr from-brand-600/30 to-cyan-500/20 rounded-[2.5rem] filter blur-xl transform -rotate-6 scale-95">
         </div>
-      </div>
-      <div class="float-card fc-proj">
-        <div class="fc-icon"><i class="fa-solid fa-layer-group"></i></div>
-        <div>
-          <div class="fc-val">10+</div>
-          <div class="fc-label">Project Selesai</div>
-        </div>
-      </div>
-      <div class="float-card fc-clean">
-        <div class="fc-icon"><i class="fa-solid fa-code"></i></div>
-        <div style="line-height:1.3">
-          <div style="font-weight:700;font-size:.82rem;color:var(--green-700)">Clean Code</div>
-          <div style="font-size:.7rem;color:var(--text-muted)">Scalable &amp; Modern</div>
-        </div>
-      </div>
 
-      <!-- Stats mobile (tampil di bawah foto, hanya mobile) -->
-      <div class="hero-stats-mobile">
-        <div class="hero-stat-card">
-          <div class="fc-icon"><i class="fa-solid fa-star"></i></div>
+        <!-- Image Container Frame -->
+        <div
+          class="relative w-full h-full rounded-[2.5rem] overflow-hidden border-2 border-brand-500/30 bg-slate-100 dark:bg-slate-900 shadow-2xl backdrop-blur-sm group">
+          <img src="images/anas.JPG" alt="Anas Zakia Ardhan - Fullstack Web Developer" loading="eager" fetchpriority="high" decoding="async"
+            class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+
+          <div
+            class="hidden w-full h-full flex-col items-center justify-center bg-slate-100 dark:bg-slate-900 p-6 text-center text-slate-500">
+            <i class="fa-solid fa-user-tie text-5xl text-brand-500 mb-3"></i>
+            <span class="text-xs font-mono">Foto profil di <code>images/anas.JPG</code></span>
+          </div>
+
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+        </div>
+
+        <!-- Floating Badge: Experience -->
+        <div
+          class="glass-panel absolute -top-4 -right-4 sm:-right-6 px-4 py-3 rounded-2xl flex items-center gap-3 animate-float-slow shadow-xl">
+          <div
+            class="w-10 h-10 rounded-xl bg-brand-500/15 border border-brand-500/30 flex items-center justify-center text-brand-600 dark:text-brand-400">
+            <i class="fa-solid fa-briefcase text-lg"></i>
+          </div>
           <div>
-            <div class="fc-val">3+</div>
-            <div class="fc-label">Tahun Experience</div>
+            <div class="text-base font-extrabold text-slate-900 dark:text-white">3+ Tahun</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Pengalaman Teruji</div>
           </div>
         </div>
-        <div class="hero-stat-card">
-          <div class="fc-icon"><i class="fa-solid fa-layer-group"></i></div>
+
+        <!-- Floating Badge: Projects Done -->
+        <div
+          class="glass-panel absolute -bottom-6 -left-4 sm:-left-6 px-4 py-3 rounded-2xl flex items-center gap-3 animate-float-reverse shadow-xl">
+          <div
+            class="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+            <i class="fa-solid fa-cubes-stacked text-lg"></i>
+          </div>
           <div>
-            <div class="fc-val">10+</div>
-            <div class="fc-label">Project Selesai</div>
+            <div class="text-base font-extrabold text-slate-900 dark:text-white">25+ Solusi Sukses</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Tuntas &amp; Beroperasi</div>
           </div>
         </div>
+
+        <!-- Floating Badge: Clean Code & Architecture -->
+        <div
+          class="glass-panel hidden sm:flex absolute bottom-24 -right-8 px-3.5 py-2.5 rounded-xl items-center gap-2.5 shadow-lg border border-brand-500/20">
+          <i class="fa-solid fa-shield-halved text-brand-600 dark:text-brand-400"></i>
+          <span class="text-xs font-bold text-slate-800 dark:text-slate-200">High-Security &amp; Fast Load</span>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="projects-header reveal">
-      <div>
-        <p class="section-eyebrow">Featured Works</p>
-        <h2 class="section-title">Project <span class="accent">Terbaru</span> Saya</h2>
-        <p class="section-sub">Beberapa project pilihan yang pernah saya kerjakan.</p>
+  <!-- QUICK STATS BAR / SOCIAL PROOF -->
+  <section class="max-w-7xl mx-auto px-6 lg:px-16 py-8">
+    <div
+      class="glass-panel rounded-2xl p-6 sm:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-200 dark:divide-slate-800">
+      <div class="pt-4 md:pt-0">
+        <div class="text-3xl sm:text-4xl font-extrabold text-brand-600 dark:text-brand-400 font-mono">25+</div>
+        <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Aplikasi Enterprise &amp; Web Sukses</div>
       </div>
-      <a href="#" class="see-all">Lihat Semua <i class="fa-solid fa-arrow-right"></i></a>
-    </div>
-
-    <div class="projects-grid">
-      <!-- Card 1 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/edosis.png" alt="E-Dosis" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">E-Dosis</div>
-          <div class="pc-desc">Sistem informasi untuk pemantauan dosis radiasi pada petugas radiologi di Poltekkes Kemenkes Semarang.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/e-dosis" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
+      <div class="pt-4 md:pt-0">
+        <div class="text-3xl sm:text-4xl font-extrabold text-emerald-600 dark:text-emerald-300 font-mono">100%</div>
+        <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Komitmen Selesai Tepat Waktu</div>
       </div>
-      <!-- Card 2 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/ediklat.png" alt="E-Diklat" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">E-Diklat</div>
-          <div class="pc-desc">Platform e-learning untuk pelatihan teknis petugas radiologi di Poltekkes Kemenkes Semarang, terintegrasi dengan sistem MRI.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/e-diklat" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
+      <div class="pt-4 md:pt-0">
+        <div class="text-3xl sm:text-4xl font-extrabold text-cyan-600 dark:text-cyan-400 font-mono">&lt; 1s</div>
+        <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Optimasi Load Speed &amp; Query</div>
       </div>
-      <!-- Card 3 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/suhu.png" alt="Monitoring Suhu" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-microchip"></i> PHP · MySQL · IoT</span>
-          </div>
-          <div class="pc-title">Sistem Monitoring Suhu Ruangan Radiologi</div>
-          <div class="pc-desc">Aplikasi monitoring suhu lingkungan dengan integrasi sensor dan dashboard real-time di ruangan radiologi Poltekkes Kemenkes Semarang.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/monitoring-suhu" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 4 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/sportifest.png" alt="Sportifest" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · React · JS</span>
-          </div>
-          <div class="pc-title">Sistem Penjualan Tiket Running</div>
-          <div class="pc-desc">Sistem informasi penjualan tiket acara lari terintegrasi dengan payment gateway dan manajemen peserta.</div>
-          <div class="pc-actions">
-            <a href="https://gitlab.com/rusdianto/sportifest" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="https://sportifest.id" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 5 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/rivana.png" alt="Rivana" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · Python · JS</span>
-          </div>
-          <div class="pc-title">Rivana - Hidrologi Machine Learning</div>
-          <div class="pc-desc">Aplikasi berbasis machine learning untuk analisis data hidrologi dan prediksi perilaku sumber daya air terintegrasi dengan API Google Earth Engine.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/rivana" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="https://rivana.cloud" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 6 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/kasir.png" alt="Kasir" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Kasir</div>
-          <div class="pc-desc">Aplikasi sistem kasir otomatis untuk toko retail dengan fitur manajemen stok dan laporan penjualan.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/kasir_store" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 7 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/anggaran.png" alt="Anggaran" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Anggaran</div>
-          <div class="pc-desc">Aplikasi sistem manajemen pengajuan anggaran untuk perusahaan untuk memudahkan atasan dalam proses pengajuan dan persetujuan anggaran terintegrasi dengan notifikasi pesan WhatsApp.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/pengajuan-anggaran" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 8 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/tiketin.png" alt="Tiketin" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Tiketin</div>
-          <div class="pc-desc">Aplikasi sistem manajemen penjualan tiket untuk memudahkan proses pemesanan dan pengelolaan tiket terintegrasi dengan payment gateway.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/tiketin" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 9 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/absensi-sembar.png" alt="Absensi Sembar" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Codeigniter · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Absensi Mahasiswa Magang</div>
-          <div class="pc-desc">Aplikasi sistem manajemen absensi untuk memudahkan proses pencatatan kehadiran Mahasiswa Magang dengan fitur integrasi QR Code.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/absensi-sembar" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 10 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/absensi-dinsos.png" alt="Absensi Dinsos" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> CodeIgniter · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Absensi Mahasiswa Magang</div>
-          <div class="pc-desc">Aplikasi sistem manajemen absensi untuk memudahkan proses pencatatan kehadiran Mahasiswa Magang di Dinas Sosial Kabupaten Pati.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/absensi-dinsos" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 11 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/absen-finger.png" alt="Absensi Finger" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Absensi Di Facca Apparel</div>
-          <div class="pc-desc">Aplikasi sistem manajemen absensi untuk memudahkan proses pencatatan kehadiran Karyawan di Facca Apparel.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/absen-finger" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 12 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/klinik.png" alt="Absensi Finger" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Booking Klinik</div>
-          <div class="pc-desc">Aplikasi sistem manajemen booking untuk memudahkan proses pencatatan jadwal pasien di Klinik.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/klinik" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 13 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/buku_tamu.png" alt="Absensi Finger" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Buku Tamu</div>
-          <div class="pc-desc">Aplikasi sistem manajemen buku tamu untuk memudahkan proses pencatatan kunjungan tamu di kantor berbasis face recognition.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/bukutamu_py" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 14 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/silapor.png" alt="Absensi Finger" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Silapor</div>
-          <div class="pc-desc">Aplikasi sistem pelaporan untuk memudahkan proses pencatatan dan pengelolaan laporan di kantor desa berbasis mobile app.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/silapor_app" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 15 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/biliard.png" alt="Booking Billiard" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Booking Billiard</div>
-          <div class="pc-desc">Aplikasi sistem booking untuk memudahkan proses pencatatan dan pengelolaan booking di tempat bermain billiard berbasis web.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/billiard_booking" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 16 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/etugas.png" alt="E-Tugas" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS · Fillament</span>
-          </div>
-          <div class="pc-title">Sistem E-Tugas</div>
-          <div class="pc-desc">Sistem yang digunakan untuk HR dalam memudahkan memberikan tugas atau pengawasan pekerjaan kepada karyawan.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/sistem_tugas" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 17 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/e-surat.png" alt="E-Surat" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS · Fillament</span>
-          </div>
-          <div class="pc-title">Sistem E-Surat</div>
-          <div class="pc-desc">Sistem manajemen surat adalah sebuah sistem yang digunakan untuk pembuatan surat secara elektronik serta sebagai sistem arsip surat masuk dan surat keluar.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/surat_desa" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 18 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/vendor.png" alt="Vendor" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Pendukung Keputusan Penentuan Vendor</div>
-          <div class="pc-desc">Sistem ini digunakan untuk instansi dalam mempermudah dalam penentuak pengadaan vendor secara otomatis berdasarkan penilaian sistem menggunakan metode SAW.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/sistem-vendor" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 19 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/course.png" alt="Course" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">E-Course</div>
-          <div class="pc-desc">Sistem E-Course ini digunakan oleh lembaga pendidikan atau penyelenggara kursus dalam meudahkan pendaftaran dan memberikan pelajaran secara daring, sistem ini ter integrasi dengan payment gateway.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/course" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 20 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/purchasing.png" alt="Purchasing" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Purchasing</div>
-          <div class="pc-desc">Sistem ini digunakan untuk mengelola proses pengadaan barang atau jasa secara efisien dan transparan.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/purchase_order " class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 21 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/ruangan.png" alt="Ruangan" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Booking Ruang Meeting</div>
-          <div class="pc-desc">Sistem ini digunakan untuk mengelola proses booking ruang meeting secara efisien dan mudah digunakan.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/ruang-meeting" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 22 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/sales.png" alt="Sales" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Sales</div>
-          <div class="pc-desc">Aplikasi ini digunakan oleh Sales lapangan untuk memudahkan dalam melakukan pelaporan hasil penjualan ke departemen marketing.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/sales" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 23 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/stk.png" alt="STK" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Booking Kendaraan (Departemen Transport)</div>
-          <div class="pc-desc">Sistem ini digunakan untuk depertemen transport dalam mengelola jadwal kendaraan yang ada di perusahaan dan juga untuk memudahkan departemen lain dalam melakukan pemesanan kendaraan di depertemen transport.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/sistem_stk" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 24 -->
-      <div class="project-card reveal">
-        <div class="pc-thumb">
-          <img src="images/utility.png" alt="Utility" onerror="this.style.display='none';" />
-        </div>
-        <div class="pc-body">
-          <div class="pc-meta">
-            <span class="pc-badge"><i class="fa-solid fa-code"></i> Laravel · PHP · JS</span>
-          </div>
-          <div class="pc-title">Sistem Helpdesk (Utility)</div>
-          <div class="pc-desc">Sistem ini digunakan untuk mengelola dan menyelesaikan keluhan serta permintaan dari pengguna internal perusahaan.</div>
-          <div class="pc-actions">
-            <a href="https://github.com/anaszakia/sistem_utility" class="pc-btn pc-btn-gh"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="#" class="pc-btn pc-btn-live" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Preview</a>
-          </div>
-        </div>
+      <div class="pt-4 md:pt-0">
+        <div class="text-3xl sm:text-4xl font-extrabold text-amber-600 dark:text-amber-400 font-mono">15+</div>
+        <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Teknologi Modern Siap Pakai</div>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT + SKILLS -->
-  <section id="about">
-    <div class="about-grid">
-      <!-- Kiri: foto + tag -->
-      <div class="reveal">
-        <div class="about-img-wrap">
-          <img src="images/coding-man.jpg" alt="About" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="img-placeholder2" style="display:none">
-            <i class="fa-solid fa-laptop-code"></i>
-            <span>Taruh foto di<br><code>images/about.jpg</code></span>
+  <!-- SKILLS & CAPABILITIES SECTION (WHY HIRE ME) -->
+  <section id="skills" class="py-20 lg:py-28 px-6 lg:px-16 max-w-7xl mx-auto relative">
+    <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-700 dark:text-brand-300 text-xs font-mono font-semibold uppercase tracking-wider mb-4">
+        <i class="fa-solid fa-microchip"></i> Layanan &amp; Kapabilitas Teknis
+      </div>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        Teknologi Andal untuk <span class="gradient-text">Mengembangkan Bisnis</span> Anda
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 mt-4 text-base leading-relaxed">
+        Solusi end-to-end: mulai dari perancangan analisis sistem bisnis, arsitektur database berkecepatan tinggi, integrasi API, antarmuka responsif modern, hingga automasi deployment CI/CD tanpa downtime.
+      </p>
+    </div>
+
+    <!-- Skills Categorized Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Category 1: Backend Engineering -->
+      <div class="skill-card-box reveal">
+        <div class="flex items-center gap-3.5 mb-5">
+          <div
+            class="w-11 h-11 rounded-xl bg-brand-500/15 border border-brand-500/30 flex items-center justify-center text-brand-600 dark:text-brand-400 text-xl">
+            <i class="fa-solid fa-server"></i>
           </div>
-          <div class="about-tag">
-            <div class="tag-icon"><i class="fa-solid fa-chart-bar"></i></div>
-            <div>
-              <div class="tag-val">10+</div>
-              <div class="tag-label">Project Completed</div>
-            </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Backend &amp; SSO Auth</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Arsitektur Cepat, SSO &amp; Anti-Crash</p>
           </div>
         </div>
-      </div>
-
-      <!-- Kanan: teks + skill bars -->
-      <div class="reveal">
-        <p class="section-eyebrow">Tentang Saya</p>
-        <h2 class="section-title">Fullstack <span class="accent">Web Developer</span></h2>
-        <p style="color:var(--text-muted);font-size:.92rem;line-height:1.7;margin-bottom:20px;">
-          Saya adalah web developer berbasis di Pati Jawa Tengah, Indonesia, yang berfokus pada pembuatan aplikasi web modern, efisien, dan <em>user friendly</em>.
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+          Membangun core sistem dengan framework terdepan, integrasi Single Sign-On (SSO / OAuth2 / SAML), API mikro, dan keamanan data level enterprise.
         </p>
-        <div class="about-checks">
-          <div class="check-item"><i class="fa-solid fa-circle-check"></i> Clean &amp; Maintainable Code</div>
-          <div class="check-item"><i class="fa-solid fa-circle-check"></i> Responsive Design</div>
-          <div class="check-item"><i class="fa-solid fa-circle-check"></i> API &amp; Machine Learning Integration</div>
-          <div class="check-item"><i class="fa-solid fa-circle-check"></i> Database Optimization</div>
-        </div>
-
-        <div class="skills-title">Skill Saya</div>
-        <div class="skill-bars">
-          <div class="skill-bar">
-            <div class="sb-header"><span class="sb-name"><span>Laravel / PHP</span></span><span class="sb-pct">92%</span></div>
-            <div class="sb-track"><div class="sb-fill" data-pct="92"></div></div>
-          </div>
-          <div class="skill-bar">
-            <div class="sb-header"><span class="sb-name"><span>Docker</span></span><span class="sb-pct">87%</span></div>
-            <div class="sb-track"><div class="sb-fill" data-pct="87"></div></div>
-          </div>
-          <div class="skill-bar">
-            <div class="sb-header"><span class="sb-name"><span>CodeIgniter 4</span></span><span class="sb-pct">90%</span></div>
-            <div class="sb-track"><div class="sb-fill" data-pct="90"></div></div>
-          </div>
-          <div class="skill-bar">
-            <div class="sb-header"><span class="sb-name"><span>Node.js / JavaScript</span></span><span class="sb-pct">85%</span></div>
-            <div class="sb-track"><div class="sb-fill" data-pct="85"></div></div>
-          </div>
-          <div class="skill-bar">
-            <div class="sb-header"><span class="sb-name"><span>Python (ML/Data)</span></span><span class="sb-pct">80%</span></div>
-            <div class="sb-track"><div class="sb-fill" data-pct="80"></div></div>
-          </div>
-          <div class="skill-bar">
-            <div class="sb-header"><span class="sb-name"><span>MySQL / MariaDB</span></span><span class="sb-pct">88%</span></div>
-            <div class="sb-track"><div class="sb-fill" data-pct="88"></div></div>
-          </div>
-          <div class="skill-bar">
-            <div class="sb-header"><span class="sb-name"><span>HTML / CSS / Tailwind</span></span><span class="sb-pct">90%</span></div>
-            <div class="sb-track"><div class="sb-fill" data-pct="90"></div></div>
-          </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-pill"><i class="fa-brands fa-php text-indigo-500"></i> PHP</span>
+          <span class="skill-pill"><i class="fa-brands fa-laravel text-red-500"></i> Laravel</span>
+          <span class="skill-pill"><i class="fa-solid fa-fire text-orange-500"></i> CodeIgniter</span>
+          <span class="skill-pill"><i class="fa-solid fa-key text-amber-500"></i> SSO (Single Sign-On)</span>
+          <span class="skill-pill"><i class="fa-brands fa-node-js text-green-600"></i> ExpressJS</span>
+          <span class="skill-pill"><i class="fa-brands fa-python text-yellow-500"></i> Python</span>
+          <span class="skill-pill"><i class="fa-solid fa-plug text-cyan-500"></i> RESTful API</span>
         </div>
       </div>
+
+      <!-- Category 2: Frontend & Mobile App -->
+      <div class="skill-card-box reveal">
+        <div class="flex items-center gap-3.5 mb-5">
+          <div
+            class="w-11 h-11 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400 text-xl">
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Frontend &amp; Mobile App</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Web Modern, Flutter &amp; React Native</p>
+          </div>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+          Aplikasi multiplatform Android/iOS berkecepatan tinggi dengan Flutter &amp; React Native, serta antarmuka web modern reaktif yang memanjakan pengguna.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-pill"><i class="fa-brands fa-flutter text-sky-400"></i> Flutter (Dart)</span>
+          <span class="skill-pill"><i class="fa-brands fa-react text-cyan-400"></i> React Native</span>
+          <span class="skill-pill"><i class="fa-brands fa-react text-cyan-500"></i> ReactJS</span>
+          <span class="skill-pill"><i class="fa-brands fa-js text-yellow-500"></i> JavaScript (ES6+)</span>
+          <span class="skill-pill"><i class="fa-brands fa-css3-alt text-sky-500"></i> Tailwind CSS</span>
+          <span class="skill-pill"><i class="fa-solid fa-mobile-screen-button text-teal-500"></i> Cross-Platform Apps</span>
+        </div>
+      </div>
+
+      <!-- Category 3: DevOps & Version Control -->
+      <div class="skill-card-box reveal">
+        <div class="flex items-center gap-3.5 mb-5">
+          <div
+            class="w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-xl">
+            <i class="fa-solid fa-gears"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">DevOps &amp; Automation</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Zero-Downtime &amp; Server Cost Efficiency</p>
+          </div>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+          Otomasi rilis aplikasi dengan Docker &amp; CI/CD pipelines, meminimalisir human error dan menghemat biaya operasional server.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-pill"><i class="fa-brands fa-docker text-blue-500"></i> Docker</span>
+          <span class="skill-pill"><i class="fa-solid fa-infinity text-brand-600 dark:text-brand-400"></i> CI / CD Pipelines</span>
+          <span class="skill-pill"><i class="fa-brands fa-git-alt text-orange-500"></i> Git</span>
+          <span class="skill-pill"><i class="fa-brands fa-github text-slate-800 dark:text-slate-200"></i> GitHub</span>
+          <span class="skill-pill"><i class="fa-brands fa-gitlab text-orange-500"></i> GitLab</span>
+        </div>
+      </div>
+
+      <!-- Category 4: Database & Storage -->
+      <div class="skill-card-box reveal">
+        <div class="flex items-center gap-3.5 mb-5">
+          <div
+            class="w-11 h-11 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-600 dark:text-amber-400 text-xl">
+            <i class="fa-solid fa-database"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Database &amp; Data Security</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Optimasi Query &amp; Struktur Data Kuat</p>
+          </div>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+          Perancangan skema database relasional yang rapi, indexing cerdas untuk query secepat kilat, dan integritas data terjamin.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-pill"><i class="fa-solid fa-server text-blue-500"></i> MySQL</span>
+          <span class="skill-pill"><i class="fa-solid fa-database text-amber-600"></i> MariaDB</span>
+          <span class="skill-pill"><i class="fa-solid fa-network-wired text-purple-500"></i> Relational Architecture</span>
+          <span class="skill-pill"><i class="fa-solid fa-bolt text-yellow-500"></i> Query Optimization</span>
+        </div>
+      </div>
+
+      <!-- Category 5: Architecture & Analysis -->
+      <div class="skill-card-box reveal">
+        <div class="flex items-center gap-3.5 mb-5">
+          <div
+            class="w-11 h-11 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-600 dark:text-purple-400 text-xl">
+            <i class="fa-solid fa-sitemap"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">System Analysis &amp; AI</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Solusi Berdasarkan Kebutuhan Nyata Bisnis</p>
+          </div>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+          Menganalisis proses bisnis, merancang UML/DFD sistematis, arsitektur otentikasi terpusat (SSO), hingga integrasi Machine Learning.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-pill"><i class="fa-solid fa-diagram-project text-brand-600 dark:text-brand-300"></i> System Analysis</span>
+          <span class="skill-pill"><i class="fa-solid fa-shield-halved text-emerald-600 dark:text-emerald-300"></i> SSO &amp; Centralized Auth</span>
+          <span class="skill-pill"><i class="fa-solid fa-chart-pie text-cyan-600 dark:text-cyan-300"></i> Decision Support (SAW)</span>
+          <span class="skill-pill"><i class="fa-solid fa-brain text-pink-500"></i> ML &amp; AI Integration</span>
+        </div>
+      </div>
+
+      <!-- Category 6: Engineering Workflow -->
+      <div class="skill-card-box reveal">
+        <div class="flex items-center gap-3.5 mb-5">
+          <div
+            class="w-11 h-11 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-600 dark:text-rose-400 text-xl">
+            <i class="fa-solid fa-code-merge"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">SEO, Mutu &amp; Integrasi</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Rank #1 Google, Payment &amp; Clean Code</p>
+          </div>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+          Optimasi SEO On-Page &amp; Technical mendalam agar website mendominasi pencarian Google, Clean Architecture, dan integrasi Payment Gateway otomatis.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-pill"><i class="fa-solid fa-magnifying-glass-chart text-brand-600 dark:text-brand-400"></i> SEO On-Page &amp; Technical</span>
+          <span class="skill-pill"><i class="fa-solid fa-gauge-high text-yellow-500"></i> Core Web Vitals (Speed)</span>
+          <span class="skill-pill"><i class="fa-solid fa-check-double text-emerald-600 dark:text-emerald-400"></i> Clean Architecture</span>
+          <span class="skill-pill"><i class="fa-solid fa-credit-card text-sky-500"></i> Payment Gateway Midtrans</span>
+          <span class="skill-pill"><i class="fa-brands fa-whatsapp text-emerald-500"></i> WhatsApp API Gateway</span>
+        </div>
+      </div>
+
     </div>
-
-    <!-- Stats row -->
-    <div class="stats-row reveal">
-      <div class="stat-item">
-        <div class="stat-val">10+</div>
-        <div class="stat-label">Project Selesai</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-val">3+</div>
-        <div class="stat-label">Tahun Experience</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-val">100%</div>
-        <div class="stat-label">Client Satisfaction</div>
-      </div>
-      <div class="stat-quote">
-        "Kode yang bersih adalah fondasi dari software yang hebat." — Anas
-      </div>
-    </div>
-    <!-- ✅ TAMBAHAN: Pengalaman Kerja -->
-    <div class="experience-wrap reveal">
-      <p class="section-eyebrow" style="text-align:center;">Perjalanan Karir</p>
-      <h2 class="section-title" style="text-align:center;">Pengalaman <span class="accent">Kerja</span></h2>
-
-      <div class="timeline">
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">2026 – Sekarang</div>
-          <div class="timeline-card">
-            <div class="tc-header">
-              <div>
-                <div class="tc-role">Programmer</div>
-                <div class="tc-company"><i class="fa-solid fa-building"></i> Universitas Islam Negeri Sunan Kudus</div>
-              </div>
-              <span class="tc-badge">Full-time</span>
-            </div>
-            <p class="tc-desc">
-              Mengembangkan dan memelihara sistem informasi akademik berbasis web menggunakan Laravel, CodeIgniter 4, dan Node.js. Bertanggung jawab atas arsitektur database, integrasi API, serta optimasi performa aplikasi.
-            </p>
-            <div class="tc-tags">
-              <span>CodeIgniter 4</span><span>PHP</span><span>Node.js</span><span>MySQL</span><span>Docker</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">2025</div>
-          <div class="timeline-card">
-            <div class="tc-header">
-              <div>
-                <div class="tc-role">Staff Teknologi Informasi</div>
-                <div class="tc-company"><i class="fa-solid fa-building"></i> PT. Gading Gadjah Mada, Kudus</div>
-              </div>
-              <span class="tc-badge tc-badge--contract">Contract</span>
-            </div>
-            <p class="tc-desc">
-              Membangun fitur front-end dan back-end untuk aplikasi manajemen data internal. Terlibat dalam pengembangan Aplikasi Internal Perusahaan.
-            </p>
-            <div class="tc-tags">
-              <span>Laravel</span><span>PHP</span><span>JavaScript</span><span>REST API</span><span>Bootstrap</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">2025</div>
-          <div class="timeline-card">
-            <div class="tc-header">
-              <div>
-                <div class="tc-role">Web Developer Internal</div>
-                <div class="tc-company"><i class="fa-solid fa-building"></i> CV. Aliansyah, Pati</div>
-              </div>
-              <span class="tc-badge tc-badge--intern">Full Time</span>
-            </div>
-            <p class="tc-desc">
-              Bekerja sebagai web developer, membantu tim dalam pembuatan Aplikasi dan pengembangan fitur sederhana pada sistem internal perusahaan.
-            </p>
-            <div class="tc-tags">
-              <span>Laravel</span><span>HTML</span><span>CSS</span><span>PHP</span><span>MySQL</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">2024 - Sekarang</div>
-          <div class="timeline-card">
-            <div class="tc-header">
-              <div>
-                <div class="tc-role">Web Developer</div>
-                <div class="tc-company"><i class="fa-solid fa-building"></i> Freelance Web Developer</div>
-              </div>
-              <span class="tc-badge tc-badge--intern">Freelance</span>
-            </div>
-            <p class="tc-desc">
-              Bekerja sebagai freelance web developer, membantu perusahaan/perseorangan dalam pembuatan Aplikasi dan pengembangan fitur sederhana pada sistem berbasis web atau aplikasi mobile.
-            </p>
-            <div class="tc-tags">
-              <span>Laravel</span><span>HTML</span><span>CSS</span><span>PHP</span><span>MySQL</span><span>Flutter</span><span>Python</span><span>JavaScript</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">2019 - 2023</div>
-          <div class="timeline-card">
-            <div class="tc-header">
-              <div>
-                <div class="tc-role">Pendidikan Sarjana Teknik Informatika</div>
-                <div class="tc-company"><i class="fa-solid fa-building"></i> Universitas Semarang, Kota Semarang</div>
-              </div>
-              <span class="tc-badge tc-badge--intern">S1</span>
-            </div>
-            <p class="tc-desc">
-              Menempuh pendidikan Sarjana Teknik Informatika.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <!-- ✅ END Pengalaman Kerja -->
   </section>
 
-  <!-- CTA -->
-  <section id="cta">
-    <div class="cta-left reveal">
-      <div class="cta-icon">✉️</div>
-      <h2 class="cta-title">Punya <span class="accent">Project</span> Menarik?</h2>
-      <p class="cta-desc">Saya siap membantu mewujudkan ide Anda menjadi solusi digital yang nyata.</p>
+  <!-- PROJECTS SECTION (PORTFOLIO PROOF) -->
+  <section id="projects" class="py-20 lg:py-28 px-6 lg:px-16 max-w-7xl mx-auto relative">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+      <div>
+        <div
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-700 dark:text-brand-300 text-xs font-mono font-semibold uppercase tracking-wider mb-4">
+          <i class="fa-solid fa-folder-open"></i> Bukti Hasil Karya &amp; Solusi Klien
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          Projek Pilihan yang <span class="gradient-text">Memberikan Dampak Nyata</span>
+        </h2>
+        <p class="text-slate-600 dark:text-slate-400 mt-2 text-base">
+          Jelajahi berbagai sistem yang telah membantu institusi, perusahaan, dan UMKM meningkatkan efisiensi operasional dan profit.
+        </p>
+      </div>
+
+      <!-- Quick Filter Tags -->
+      <div class="flex flex-wrap gap-2" id="projectFilter">
+        <button class="filter-btn active" data-filter="all">Semua Projek (25)</button>
+        <button class="filter-btn" data-filter="laravel">Laravel Enterprise</button>
+        <button class="filter-btn" data-filter="ci">CodeIgniter</button>
+        <button class="filter-btn" data-filter="react">ReactJS &amp; Web App</button>
+        <button class="filter-btn" data-filter="special">AI / ML &amp; IoT</button>
+      </div>
     </div>
-    <div class="reveal">
-    <a
-      class="btn-primary"
-      href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20tertarik%20dengan%20portfolio%20Anda."
-      target="_blank"
-      rel="noopener noreferrer"
-      style="font-size:1rem;padding:16px 36px;"
-    >
-      <i class="fa-brands fa-whatsapp"></i> Hubungi Saya
-    </a>
-  </div>
+
+    <!-- Projects Grid Container -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsContainer">
+
+      <!-- Card 1 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="react">
+        <div class="pc-thumb-container">
+          <img src="images/nk.png" alt="Company Profile Nusantara Karya" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            React · High Conversion
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-300 transition-colors">Company Profile
+              Nusantara Karya</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Website branding korporat berkinerja tinggi dengan
+              optimasi SEO terdepan untuk meningkatkan kredibilitas dan mendatangkan prospek klien secara organik.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-solid fa-code text-brand-600 dark:text-brand-400 mr-1"></i> ReactJS,
+              Tailwind</span>
+            <a href="https://nusantara-karya-five.vercel.app/" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              Lihat Live Demo <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/edosis.png" alt="E-Dosis" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Laravel · HealthTech
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">E-Dosis Monitoring Radiologi</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Sistem informasi presisi tinggi untuk memantau akumulasi dosis radiasi
+              petugas medis di Poltekkes Kemenkes secara otomatis &amp; akurat.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, MySQL</span>
+            <a href="https://github.com/anaszakia/e-dosis" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/ediklat.png" alt="E-Diklat" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Laravel · LMS Enterprise
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">E-Diklat Portal Pelatihan Medis</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Platform e-learning berskala institusi dengan sistem ujian online, evaluasi terintegrasi, dan penerbitan sertifikasi digital otomatis.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, PHP</span>
+            <a href="https://github.com/anaszakia/e-diklat" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="special">
+        <div class="pc-thumb-container">
+          <img src="images/suhu.png" alt="Monitoring Suhu" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-cyan-500/30 text-xs font-mono font-semibold text-cyan-700 dark:text-cyan-300">
+            IoT · Realtime Alert
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sistem IoT &amp; Monitoring Suhu</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Dashboard telemetri sensor suhu &amp; kelembapan realtime dengan auto-alerting sistem saat kondisi melewati ambang batas aman.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-solid fa-microchip text-cyan-600 dark:text-cyan-400 mr-1"></i> IoT,
+              PHP, MySQL</span>
+            <a href="https://github.com/anaszakia/monitoring-suhu" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/sportifest.png" alt="Sportifest" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Fintech · Auto Payment
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sportifest Ticketing &amp; Payment</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Platform transaksi tiket event skala besar dengan integrasi Payment Gateway instan dan e-tiket QR Code anti-pemalsuan.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, React</span>
+            <a href="https://sportifest.id" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              Lihat Live Demo <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="special">
+        <div class="pc-thumb-container">
+          <img src="images/rivana.png" alt="Rivana" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-purple-500/30 text-xs font-mono font-semibold text-purple-700 dark:text-purple-300">
+            Python · ML Prediction
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Rivana - Cloud ML Hydro-Analytics</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Platform analisis hidrologi berbasis Machine Learning yang terhubung dengan Google Earth Engine API untuk kalkulasi debit air akurat.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-python text-yellow-500 mr-1"></i>
+              Python, Laravel</span>
+            <a href="https://rivana.cloud" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              Lihat Live Demo <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/kasir.png" alt="Kasir" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            POS Retail · Omzet Booster
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sistem Kasir &amp; Inventory POS</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Aplikasi kasir retail lengkap dengan scan barcode cepat, manajemen stok otomatis, diskon bertingkat, dan laporan laba rugi instan.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, MySQL</span>
+            <a href="https://github.com/anaszakia/kasir_store" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/anggaran.png" alt="Anggaran" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Enterprise · Otomasi WA
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sistem Pengajuan Anggaran Cepat</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Mempercepat proses birokrasi persetujuan dana berjenjang dengan notifikasi instan langsung ke WhatsApp pimpinan / direksi.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, WA Gateway</span>
+            <a href="https://github.com/anaszakia/pengajuan-anggaran" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 9 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/tiketin.png" alt="Tiketin" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            SaaS Ticketing &amp; Event
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Tiketin - Event Management SaaS</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Sistem tiket konser dan seminar otomatis, checkout terintegrasi QRIS / Bank Transfer, serta scanner presensi pintu masuk.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, Payment</span>
+            <a href="https://github.com/anaszakia/tiketin" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 10 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="ci">
+        <div class="pc-thumb-container">
+          <img src="images/absensi-sembar.png" alt="Absensi Sembar" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-orange-500/30 text-xs font-mono font-semibold text-orange-700 dark:text-orange-300">
+            GPS Geofencing · CI 4
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Presensi Digital Berbasis Geofence</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Mencegah kecurangan presensi pegawai &amp; mahasiswa melalui verifikasi radius lokasi GPS akurat dan QR Code terenkripsi.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-solid fa-fire text-orange-500 mr-1"></i>
+              CodeIgniter 4</span>
+            <a href="https://github.com/anaszakia/absensi-sembar" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 11 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="ci">
+        <div class="pc-thumb-container">
+          <img src="images/absensi-dinsos.png" alt="Absensi Dinsos" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-orange-500/30 text-xs font-mono font-semibold text-orange-700 dark:text-orange-300">
+            Pemerintahan · Dinsos
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sistem Rekapitulasi Presensi ASN</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Pengembangan sistem kehadiran dan rekapitulasi tunjangan kinerja aparatur instansi pemerintah dengan laporan PDF terstruktur.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-solid fa-fire text-orange-500 mr-1"></i>
+              CodeIgniter, MySQL</span>
+            <a href="https://github.com/anaszakia/absensi-dinsos" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 12 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/absen-finger.png" alt="Absensi Finger" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Hardware SDK Sync
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Integrasi Log Mesin Fingerprint</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Sinkronisasi otomatis dari mesin biometrik (ZKTeco/Solution) langsung ke database cloud server perusahaan tanpa manual transfer.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, Device SDK</span>
+            <a href="https://github.com/anaszakia/absen-finger" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 13 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/klinik.png" alt="Sistem Booking Klinik" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Klinik &amp; Antrean Pasien
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sistem Booking Pasien &amp; Klinik</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Eliminasi antrean fisik yang berdesakan dengan reservasi dokter online, pencatatan rekam medis ringkas, dan riwayat pembayaran.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, MySQL</span>
+            <a href="https://github.com/anaszakia/klinik" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 14 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="special">
+        <div class="pc-thumb-container">
+          <img src="images/buku_tamu.png" alt="Sistem Buku Tamu Face Recognition" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-purple-500/30 text-xs font-mono font-semibold text-purple-700 dark:text-purple-300">
+            Computer Vision AI
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Buku Tamu AI Face Recognition</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Pencatatan tamu VIP dan pengunjung gedung perkantoran secara futuristik dan instan menggunakan pengenalan wajah OpenCV.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-python text-yellow-500 mr-1"></i>
+              Python AI, Laravel</span>
+            <a href="https://github.com/anaszakia/bukutamu_py" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 15 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/silapor.png" alt="Silapor" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Layanan Publik Warga
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Silapor - Platform Aduan Warga</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Meningkatkan kepuasan publik lewat kanal aspirasi terstruktur dengan pelacakan status penanganan masalah secara real-time.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, REST API</span>
+            <a href="https://github.com/anaszakia/silapor_app" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 16 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/biliard.png" alt="Booking Billiard" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Auto Billing &amp; IoT
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Smart Billing Billiard Lounge</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Mencegah kebocoran pendapatan dengan sistem billing waktu akurat yang tersinkronisasi dengan relay kontrol daya lampu meja.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, Realtime JS</span>
+            <a href="https://github.com/anaszakia/billiard_booking" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 17 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/etugas.png" alt="E-Tugas" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            HRMS · KPI Tracker
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sistem Manajemen KPI &amp; E-Tugas</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Meningkatkan produktivitas tim internal dengan delegasi penugasan terukur, deadline monitoring, dan evaluasi performa karyawan.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, Filament</span>
+            <a href="https://github.com/anaszakia/sistem_tugas" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 18 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/e-surat.png" alt="E-Surat" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Digital Office &amp; Arsip
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">E-Surat &amp; Repositori Arsip Digital</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Otomasi penomoran surat kedinasan, disposisi digital tanpa kertas, dan pencarian dokumen lama dalam hitungan detik.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, Security</span>
+            <a href="https://github.com/anaszakia/surat_desa" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 19 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="special">
+        <div class="pc-thumb-container">
+          <img src="images/vendor.png" alt="Vendor" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-purple-500/30 text-xs font-mono font-semibold text-purple-700 dark:text-purple-300">
+            Decision Support (DSS)
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">SPK Penentuan Vendor Terbaik</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Membantu pimpinan menentukan vendor pengadaan paling efisien dan kompetitif menggunakan algoritma pembobotan Simple Additive Weighting.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-solid fa-calculator text-brand-600 dark:text-brand-400 mr-1"></i>
+              Laravel, Algoritma SAW</span>
+            <a href="https://github.com/anaszakia/sistem-vendor" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 20 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/course.png" alt="Course" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            EdTech &amp; Monetisasi
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">E-Course &amp; Learning Portal</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Monetisasi kelas daring dengan proteksi materi video, ujian bersyarat, penerbitan sertifikat, dan checkout membership instan.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, Payment</span>
+            <a href="https://github.com/anaszakia/course" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 21 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/purchasing.png" alt="Purchasing" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Supply Chain &amp; ERP
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sistem Purchasing &amp; PO Korporat</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Pengelolaan Purchase Request hingga Purchase Order (PO), kontrol budget anggaran belanja, dan pelacakan pengiriman barang logistik.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, MySQL</span>
+            <a href="https://github.com/anaszakia/purchase_order" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 22 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/ruangan.png" alt="Ruangan" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Smart Office
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Smart Booking Ruang Meeting</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Hindari bentrok jadwal rapat eksekutif dengan kalender reservasi cerdas dan notifikasi status ruangan secara otomatis.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, Calendar JS</span>
+            <a href="https://github.com/anaszakia/ruang-meeting" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 23 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/sales.png" alt="Sales" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            CRM &amp; Sales Tracker
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">CRM &amp; Pelaporan Sales Lapangan</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Tingkatkan closing penjualan dengan monitoring pipeline prospek, pencatatan visit pelanggan, dan visualisasi grafik performa omzet.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, ChartJS</span>
+            <a href="https://github.com/anaszakia/sales" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 24 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/stk.png" alt="STK" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Fleet &amp; Logistik
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sistem Manajemen Armada Mobil Dinas</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Pengelolaan armada kendaraan operasional perusahaan, riwayat servis berkala, pencatatan konsumsi BBM, dan penjadwalan driver.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, MySQL</span>
+            <a href="https://github.com/anaszakia/sistem_stk" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 25 -->
+      <div class="glass-card-interactive flex flex-col reveal" data-category="laravel">
+        <div class="pc-thumb-container">
+          <img src="images/utility.png" alt="Utility" loading="lazy" decoding="async"
+            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-500 text-3xl\'><i class=\'fa-solid fa-image\'></i></div>'" />
+          <div
+            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-900/80 backdrop-blur-md border border-brand-500/30 text-xs font-mono font-semibold text-brand-700 dark:text-brand-300">
+            Helpdesk &amp; SLA
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Helpdesk Ticketing &amp; Maintenance</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed">Manajemen komplain dan perbaikan infrastruktur internal dengan monitoring Service Level Agreement (SLA) respon teknisi.</p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-brands fa-laravel text-red-500 mr-1"></i>
+              Laravel, JS</span>
+            <a href="https://github.com/anaszakia/sistem_utility" target="_blank" rel="noopener noreferrer"
+              class="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white flex items-center gap-1.5 transition-colors">
+              <i class="fa-brands fa-github"></i> Repositori
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WORK EXPERIENCE & CAREER TIMELINE -->
+  <section id="experience" class="py-20 lg:py-28 px-6 lg:px-16 max-w-7xl mx-auto relative">
+    <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-700 dark:text-brand-300 text-xs font-mono font-semibold uppercase tracking-wider mb-4">
+        <i class="fa-solid fa-road"></i> Track Record &amp; Pengalaman
+      </div>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        Rekam Jejak <span class="gradient-text">Profesional</span> Terpercaya
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 mt-3 text-base">
+        Pengalaman nyata dalam mengembangkan sistem skala institusi pendidikan tinggi, perusahaan swasta, hingga puluhan klien remote.
+      </p>
+    </div>
+
+    <!-- Timeline Container -->
+    <div class="relative max-w-4xl mx-auto">
+      <div class="timeline-stem"></div>
+
+      <div class="space-y-12">
+
+        <!-- Timeline 1 -->
+        <div class="relative flex flex-col md:flex-row items-start gap-6 md:gap-12 pl-12 md:pl-0 reveal">
+          <div
+            class="absolute left-2.5 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white dark:bg-dark-900 border-2 border-brand-500 flex items-center justify-center text-brand-600 dark:text-brand-400 text-xs shadow-lg shadow-brand-500/30 z-10">
+            <i class="fa-solid fa-briefcase"></i>
+          </div>
+          <div class="md:w-1/2 md:text-right md:pr-8">
+            <span
+              class="inline-block px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-700 dark:text-brand-300 font-mono text-xs font-bold mb-2">2026
+              – Sekarang</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Tenaga Ahli Programmer</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm font-medium"><i class="fa-solid fa-building text-brand-600 dark:text-brand-400 mr-1.5"></i>
+              Universitas Islam Negeri Sunan Kudus</p>
+          </div>
+          <div class="md:w-1/2 md:pl-8">
+            <div class="glass-panel p-6 rounded-2xl">
+              <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-4">
+                Memimpin perancangan dan pemeliharaan ekosistem sistem informasi akademik berskala ribuan pengguna aktif. Mengoptimalkan query database, memastikan keamanan sistem data sensitif, serta mengintegrasikan modul API terpusat.
+              </p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">CodeIgniter 4</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">Laravel</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">Node.js</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">MySQL</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">Docker</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline 2 -->
+        <div class="relative flex flex-col md:flex-row-reverse items-start gap-6 md:gap-12 pl-12 md:pl-0 reveal">
+          <div
+            class="absolute left-2.5 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white dark:bg-dark-900 border-2 border-brand-500 flex items-center justify-center text-brand-600 dark:text-brand-400 text-xs shadow-lg shadow-brand-500/30 z-10">
+            <i class="fa-solid fa-code"></i>
+          </div>
+          <div class="md:w-1/2 md:text-left md:pl-8">
+            <span
+              class="inline-block px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-700 dark:text-cyan-300 font-mono text-xs font-bold mb-2">2025</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Staff Teknologi Informasi</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm font-medium"><i class="fa-solid fa-building text-cyan-600 dark:text-cyan-400 mr-1.5"></i> PT.
+              Gading Gadjah Mada, Kudus</p>
+          </div>
+          <div class="md:w-1/2 md:pr-8">
+            <div class="glass-panel p-6 rounded-2xl">
+              <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-4">
+                Mengembangkan platform manajemen data operasional perusahaan, memangkas proses manual lewat otomatisasi RESTful API, dan mempercepat alur koordinasi antar divisi secara real-time.
+              </p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">Laravel</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">REST API</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">JavaScript</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">MySQL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline 3 -->
+        <div class="relative flex flex-col md:flex-row items-start gap-6 md:gap-12 pl-12 md:pl-0 reveal">
+          <div
+            class="absolute left-2.5 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white dark:bg-dark-900 border-2 border-brand-500 flex items-center justify-center text-brand-600 dark:text-brand-400 text-xs shadow-lg shadow-brand-500/30 z-10">
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+          <div class="md:w-1/2 md:text-right md:pr-8">
+            <span
+              class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-mono text-xs font-bold mb-2">2025</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Web Developer Internal</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm font-medium"><i class="fa-solid fa-building text-brand-600 dark:text-brand-400 mr-1.5"></i> CV.
+              Aliansyah, Pati</p>
+          </div>
+          <div class="md:w-1/2 md:pl-8">
+            <div class="glass-panel p-6 rounded-2xl">
+              <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-4">
+                Merancang sistem internal perusahaan, arsitektur database relasional yang rapi, dan mengotomasi kalkulasi data transaksi harian yang sebelumnya memakan waktu berjam-jam.
+              </p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">Laravel</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">PHP</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">MySQL</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">Bootstrap</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline 4 -->
+        <div class="relative flex flex-col md:flex-row-reverse items-start gap-6 md:gap-12 pl-12 md:pl-0 reveal">
+          <div
+            class="absolute left-2.5 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white dark:bg-dark-900 border-2 border-brand-500 flex items-center justify-center text-brand-600 dark:text-brand-400 text-xs shadow-lg shadow-brand-500/30 z-10">
+            <i class="fa-solid fa-globe"></i>
+          </div>
+          <div class="md:w-1/2 md:text-left md:pl-8">
+            <span
+              class="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-700 dark:text-purple-300 font-mono text-xs font-bold mb-2">2024
+              – Sekarang</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Fullstack Solution Consultant &amp; Developer</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm font-medium"><i class="fa-solid fa-user-gear text-purple-600 dark:text-purple-400 mr-1.5"></i>
+              Remote / Freelance Project</p>
+          </div>
+          <div class="md:w-1/2 md:pr-8">
+            <div class="glass-panel p-6 rounded-2xl">
+              <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-4">
+                Bermitra dengan puluhan pemilik bisnis, instansi, dan startup dalam membangun custom web applications, SaaS platform, POS inventory, dashboard IoT cerdas, hingga integrasi payment gateway.
+              </p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">Laravel</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">Python</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">ReactJS</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">Tailwind</span>
+                <span class="skill-pill !text-[11px] !py-1 !px-2.5">REST API</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT & VALUE PROPOSITION -->
+  <section id="about" class="py-20 lg:py-28 px-6 lg:px-16 max-w-7xl mx-auto relative">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+      <!-- Left Image Column -->
+      <div class="lg:col-span-5 relative reveal">
+        <div
+          class="relative w-full aspect-square rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700/60 shadow-2xl bg-slate-100 dark:bg-slate-900 group">
+          <img src="images/coding-man.jpg" alt="Anas Zakia Ardhan Coding" loading="lazy" decoding="async"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="hidden w-full h-full flex-col items-center justify-center text-slate-500 p-6 text-center">
+            <i class="fa-solid fa-laptop-code text-5xl text-brand-500 mb-3"></i>
+            <span class="text-xs font-mono">Foto About di <code>images/coding-man.jpg</code></span>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent"></div>
+
+          <div
+            class="absolute bottom-6 left-6 right-6 glass-panel p-4 rounded-xl flex items-center justify-between border border-brand-500/30">
+            <div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 uppercase font-mono">Status &amp; Lokasi</div>
+              <div class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mt-0.5">
+                <i class="fa-solid fa-location-dot text-brand-600 dark:text-brand-400"></i> Jawa Tengah, ID (Siap Remote Global)
+              </div>
+            </div>
+            <div class="w-9 h-9 rounded-lg bg-brand-500/15 flex items-center justify-center text-brand-600 dark:text-brand-400">
+              <i class="fa-solid fa-check"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Content Column -->
+      <div class="lg:col-span-7 space-y-6 reveal">
+        <div
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-700 dark:text-brand-300 text-xs font-mono font-semibold uppercase tracking-wider">
+          <i class="fa-solid fa-user-astronaut"></i> Mengapa Bermitra dengan Saya?
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          Mengubah Kompleksitas Koding Menjadi <span class="gradient-text">Solusi Bisnis yang Menghasilkan</span>.
+        </h2>
+
+        <p class="text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+          Saya tidak hanya sekadar menulis kode baris demi baris, melainkan <strong class="text-brand-700 dark:text-brand-300">memahami kebutuhan bisnis Anda</strong> secara mendalam. Setiap aplikasi yang saya bangun dirancang untuk menghasilkan ROI maksimal, meminimalisir bug, serta mudah dipelihara dan diskalakan seiring berkembangnya usaha Anda.
+        </p>
+
+        <!-- Highlights Checklist -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-white/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <i class="fa-solid fa-circle-check text-brand-600 dark:text-brand-400 text-lg"></i>
+            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">Arsitektur Bersih &amp; Mudah Dikembangkan</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-white/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <i class="fa-solid fa-circle-check text-brand-600 dark:text-brand-400 text-lg"></i>
+            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">Keamanan Data &amp; Proteksi Cyber</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-white/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <i class="fa-solid fa-circle-check text-brand-600 dark:text-brand-400 text-lg"></i>
+            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">Loading Cepat &amp; Query Teroptimasi</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-white/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <i class="fa-solid fa-circle-check text-brand-600 dark:text-brand-400 text-lg"></i>
+            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">Garansi &amp; Pendampingan Setelah Rilis</span>
+          </div>
+        </div>
+
+        <!-- Education Card -->
+        <div
+          class="p-5 rounded-2xl bg-gradient-to-r from-brand-50 to-white dark:from-slate-900/90 dark:to-brand-950/40 border border-brand-500/20 flex items-center gap-4 mt-4 shadow-sm">
+          <div
+            class="w-12 h-12 rounded-xl bg-brand-500/15 border border-brand-500/30 flex items-center justify-center text-brand-600 dark:text-brand-400 text-2xl flex-shrink-0">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-brand-700 dark:text-brand-300 font-bold uppercase tracking-wider">Pendidikan Formal Terakreditasi
+            </div>
+            <div class="text-base font-bold text-slate-900 dark:text-white mt-0.5">Sarjana Teknik Informatika (S.Kom)</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">Universitas Semarang (USM) · Fokus Software Engineering &amp; Arsitektur Sistem</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION (CTA) CONVERSION TRIGGER -->
+  <section id="cta" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto relative">
+    <div
+      class="glass-panel relative rounded-3xl p-8 sm:p-12 lg:p-16 overflow-hidden border border-brand-500/30 text-center lg:text-left flex flex-col lg:flex-row items-center justify-between gap-8 reveal">
+
+      <!-- Background Ambient inside CTA -->
+      <div class="absolute top-0 right-0 w-96 h-96 bg-brand-500/10 rounded-full filter blur-3xl pointer-events-none">
+      </div>
+
+      <div class="space-y-4 max-w-2xl relative z-10">
+        <div
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/15 text-brand-700 dark:text-brand-300 text-xs font-mono font-bold uppercase tracking-wider">
+          <i class="fa-solid fa-handshake"></i> Wujudkan Solusi Digital Anda Sekarang
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+          Punya Ide atau Kebutuhan <span class="gradient-text">Aplikasi Web?</span>
+        </h2>
+        <p class="text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+          Konsultasikan kebutuhan sistem Anda secara cuma-cuma. Dapatkan rancangan estimasi arsitektur, timeline pengerjaan yang transparan, dan penawaran terbaik untuk kesuksesan bisnis Anda.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-4 relative z-10 w-full sm:w-auto">
+        <a href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20ingin%20konsultasi%20projek%20aplikasi%20web%20dan%20mendapatkan%20penawaran."
+          target="_blank" rel="noopener noreferrer" class="btn-glow-primary w-full sm:w-auto !py-4 !px-8 text-base">
+          <i class="fa-brands fa-whatsapp text-xl"></i> Konsultasi Cepat via WhatsApp
+        </a>
+        <a href="mailto:anaszakia123@gmail.com?subject=Inquiry%20Projek%20Aplikasi%20Web&body=Halo%20Anas,%20saya%20tertarik%20untuk%20mendiskusikan%20kebutuhan%20projek%20kami." class="btn-glow-outline w-full sm:w-auto !py-4 !px-8 text-base">
+          <i class="fa-solid fa-envelope"></i> Kirim Brief Email
+        </a>
+      </div>
+
+    </div>
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="nav-logo"><i class="fa-solid fa-code"></i> <span style="color:var(--green-400)">Anas</span>Dev</div>
-        <p>Membangun teknologi, menciptakan solusi, memberi dampak.</p>
-        <div class="footer-socials">
-          <a href="https://github.com/anaszakia" title="GitHub"><i class="fa-brands fa-github"></i></a>
-          <a href="https://www.tiktok.com/@anaswebdev?_r=1&_t=ZS-97ZhJdi3HNZ" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-          <a href="https://www.instagram.com/_anaszakiaa?igsh=bXl5cm1hYXg4NHZm&utm_source=qr" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="https://wa.me/6281231195859?text=Halo%20Anas,%20saya%20tertarik%20dengan%20portfolio%20Anda." title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+  <footer class="border-t border-slate-200 dark:border-slate-800/80 bg-slate-100/80 dark:bg-dark-950/80 pt-16 pb-12 px-6 lg:px-16 text-slate-600 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+
+      <!-- Col 1: Brand Info -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-white dark:text-dark-900 shadow-md">
+            <i class="fa-solid fa-code font-bold"></i>
+          </div>
+          <span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">Anas<span
+              class="text-brand-600 dark:text-brand-400">Dev</span></span>
+        </div>
+        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+          Membangun sistem web modern, efisien, dan berdampak nyata bagi pertumbuhan omzet bisnis dan efisiensi operasional Anda.
+        </p>
+        <div class="flex items-center gap-3 pt-2">
+          <a href="https://github.com/anaszakia" target="_blank" aria-label="GitHub"
+            class="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-transparent flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-brand-600 transition-colors shadow-sm"><i
+              class="fa-brands fa-github text-sm"></i></a>
+          <a href="https://gitlab.com/rusdianto" target="_blank" aria-label="GitLab"
+            class="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-transparent flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-orange-600 transition-colors shadow-sm"><i
+              class="fa-brands fa-gitlab text-sm"></i></a>
+          <a href="https://www.tiktok.com/@anaswebdev" target="_blank" aria-label="TikTok"
+            class="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-transparent flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-pink-600 transition-colors shadow-sm"><i
+              class="fa-brands fa-tiktok text-sm"></i></a>
+          <a href="https://www.instagram.com/_anaszakiaa" target="_blank" aria-label="Instagram"
+            class="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-transparent flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-purple-600 transition-colors shadow-sm"><i
+              class="fa-brands fa-instagram text-sm"></i></a>
+          <a href="https://wa.me/6281231195859" target="_blank" aria-label="WhatsApp"
+            class="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-transparent flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-emerald-600 transition-colors shadow-sm"><i
+              class="fa-brands fa-whatsapp text-sm"></i></a>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>Navigation</h4>
-        <ul>
-          <li><a href="#hero"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
-          <li><a href="#projects"><i class="fa-solid fa-chevron-right"></i> Projects</a></li>
-          <li><a href="#about"><i class="fa-solid fa-chevron-right"></i> About</a></li>
-          <li><a href="#cta"><i class="fa-solid fa-chevron-right"></i> Contact</a></li>
+
+      <!-- Col 2: Navigation -->
+      <div>
+        <h4 class="text-sm font-mono font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4">Navigasi Cepat</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#hero" class="hover:text-brand-600 dark:hover:text-brand-300 transition-colors flex items-center gap-2"><i
+                class="fa-solid fa-chevron-right text-xs text-brand-500"></i> Beranda</a></li>
+          <li><a href="#skills" class="hover:text-brand-600 dark:hover:text-brand-300 transition-colors flex items-center gap-2"><i
+                class="fa-solid fa-chevron-right text-xs text-brand-500"></i> Solusi &amp; Layanan</a></li>
+          <li><a href="#projects" class="hover:text-brand-600 dark:hover:text-brand-300 transition-colors flex items-center gap-2"><i
+                class="fa-solid fa-chevron-right text-xs text-brand-500"></i> Portofolio Projek</a></li>
+          <li><a href="#experience" class="hover:text-brand-600 dark:hover:text-brand-300 transition-colors flex items-center gap-2"><i
+                class="fa-solid fa-chevron-right text-xs text-brand-500"></i> Pengalaman Karir</a></li>
+          <li><a href="#about" class="hover:text-brand-600 dark:hover:text-brand-300 transition-colors flex items-center gap-2"><i
+                class="fa-solid fa-chevron-right text-xs text-brand-500"></i> Tentang Anas</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="#">Web Development</a></li>
-          <li><a href="#">API Development</a></li>
-          <li><a href="#">ML Integration</a></li>
-          <li><a href="#">System Development</a></li>
-          <li><a href="#">Database Design</a></li>
+
+      <!-- Col 3: Specialized Services -->
+      <div>
+        <h4 class="text-sm font-mono font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4">Solusi Spesialis</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li class="flex items-center gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-code text-xs text-brand-600 dark:text-brand-400"></i>
+            Custom Web &amp; Enterprise Apps</li>
+          <li class="flex items-center gap-2 text-slate-700 dark:text-slate-300"><i class="fa-brands fa-flutter text-xs text-sky-500"></i>
+            Mobile Apps (Flutter &amp; React Native)</li>
+          <li class="flex items-center gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-key text-xs text-amber-500"></i>
+            SSO (Single Sign-On) &amp; Security</li>
+          <li class="flex items-center gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-magnifying-glass-chart text-xs text-brand-600 dark:text-brand-400"></i>
+            SEO On-Page, Technical &amp; Speed</li>
+          <li class="flex items-center gap-2 text-slate-700 dark:text-slate-300"><i class="fa-brands fa-docker text-xs text-blue-500"></i>
+            Docker &amp; CI/CD Deployment</li>
+          <li class="flex items-center gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-database text-xs text-purple-500"></i>
+            Database Tuning &amp; Query Speed Up</li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="mailto:anas@email.com"><i class="fa-solid fa-envelope"></i> anaszakia123@gmail.com</a></li>
-          <li><a href="https://wa.me/6281231195859" target="_blank"><i class="fa-brands fa-whatsapp"></i> +62 812-3119-5859</a></li>
-          <li><a href="#"><i class="fa-solid fa-location-dot"></i> Pati Jawa Tengah, Indonesia</a></li>
+
+      <!-- Col 4: Direct Contacts -->
+      <div>
+        <h4 class="text-sm font-mono font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4">Kontak Langsung</h4>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <a href="mailto:anaszakia123@gmail.com"
+              class="hover:text-brand-600 dark:hover:text-brand-300 transition-colors flex items-start gap-2.5">
+              <i class="fa-solid fa-envelope text-brand-600 dark:text-brand-400 mt-1"></i>
+              <span class="break-all">anaszakia123@gmail.com</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://wa.me/6281231195859" target="_blank"
+              class="hover:text-brand-600 dark:hover:text-brand-300 transition-colors flex items-center gap-2.5">
+              <i class="fa-brands fa-whatsapp text-brand-600 dark:text-brand-400"></i>
+              <span>+62 812-3119-5859</span>
+            </a>
+          </li>
+          <li class="flex items-center gap-2.5 text-slate-500 dark:text-slate-400">
+            <i class="fa-solid fa-clock text-brand-600 dark:text-brand-400"></i>
+            <span>Respon Cepat (08.00 - 22.00 WIB)</span>
+          </li>
         </ul>
       </div>
+
     </div>
-    <div class="footer-bottom">
-      <span>© 2024 Anas. All rights reserved.</span>
-      <span>Made with <span class="heart">♥</span> and <span class="heart">☕</span></span>
+
+    <!-- Copyright Subfooter -->
+    <div
+      class="max-w-7xl mx-auto pt-8 border-t border-slate-200 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+      <p>&copy; 2026 Anas Zakia Ardhan. All rights reserved.</p>
+      <div class="flex items-center gap-6">
+        <a href="#hero" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Kembali ke Atas <i
+            class="fa-solid fa-arrow-up ml-1"></i></a>
+      </div>
     </div>
   </footer>
 
-  <!-- ─── SCRIPTS ─── -->
+  <!-- SCRIPT LOGIC -->
   <script>
-    // NAV scroll shadow
-    const nav = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 10);
+    // 1. Theme Toggle (Light & Dark Mode)
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    
+    function updateTheme(isDark) {
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isCurrentlyDark = document.documentElement.classList.contains('dark');
+      updateTheme(!isCurrentlyDark);
     });
 
-    // Mobile burger
+    // 2. Mobile Menu Toggle
     const burger = document.getElementById('burger');
     const navMobile = document.getElementById('navMobile');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
     burger.addEventListener('click', () => {
-      navMobile.classList.toggle('open');
-      burger.querySelector('i').className = navMobile.classList.contains('open')
-        ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
-    });
-    navMobile.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        navMobile.classList.remove('open');
-        burger.querySelector('i').className = 'fa-solid fa-bars';
-      });
-    });
-
-    // Typed role effect
-    const roles = ['PHP & Laravel', 'CodeIgniter 4', 'Node.js API', 'Python', 'MySQL / MariaDB', 'HTML / CSS / JS', 'Machine Learning', 'Web Development', 'System Integration', 'Database Optimization'];
-    let ri = 0, ci = 0, deleting = false;
-    const typedEl = document.getElementById('typedRole');
-    function typeLoop() {
-      const cur = roles[ri];
-      if (!deleting) {
-        typedEl.textContent = cur.slice(0, ++ci);
-        if (ci === cur.length) { deleting = true; setTimeout(typeLoop, 1400); return; }
+      const isOpen = !navMobile.classList.contains('-translate-y-full');
+      if (isOpen) {
+        navMobile.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+        burger.innerHTML = '<i class="fa-solid fa-bars-staggered text-lg"></i>';
       } else {
-        typedEl.textContent = cur.slice(0, --ci);
-        if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
+        navMobile.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+        burger.innerHTML = '<i class="fa-solid fa-xmark text-lg text-brand-600 dark:text-brand-400"></i>';
       }
-      setTimeout(typeLoop, deleting ? 55 : 85);
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navMobile.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+        burger.innerHTML = '<i class="fa-solid fa-bars-staggered text-lg"></i>';
+      });
+    });
+
+    // 3. Navbar Backdrop on Scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('shadow-md', 'dark:shadow-dark-900/50', 'py-3');
+        navbar.classList.remove('py-4');
+      } else {
+        navbar.classList.remove('shadow-md', 'dark:shadow-dark-900/50', 'py-3');
+        navbar.classList.add('py-4');
+      }
+    });
+
+    // 4. Dynamic Typed Role Text Loop
+    const roles = [
+      'Laravel & PHP Expert',
+      'Flutter & React Native Developer',
+      'SSO (Single Sign-On) Specialist',
+      'System Analyst & Architecture',
+      'CodeIgniter & MVC Specialist',
+      'Technical SEO & Speed Optimizer',
+      'Docker & CI/CD Pipelines',
+      'ReactJS & ExpressJS Developer',
+      'Python & ML Integration',
+      'MySQL Database Optimization'
+    ];
+    let rIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typedTarget = document.getElementById('typedRole');
+
+    function loopTyping() {
+      const currentRole = roles[rIndex];
+      if (!isDeleting) {
+        typedTarget.textContent = currentRole.slice(0, ++charIndex);
+        if (charIndex === currentRole.length) {
+          isDeleting = true;
+          setTimeout(loopTyping, 1800);
+          return;
+        }
+      } else {
+        typedTarget.textContent = currentRole.slice(0, --charIndex);
+        if (charIndex === 0) {
+          isDeleting = false;
+          rIndex = (rIndex + 1) % roles.length;
+        }
+      }
+      setTimeout(loopTyping, isDeleting ? 45 : 85);
     }
-    typeLoop();
+    loopTyping();
 
-    // Reveal on scroll
-    const reveals = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e, idx) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), idx * 80);
-          obs.unobserve(e.target);
+    // 5. Smooth Intersection Observer for Scroll Reveals
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, idx) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, (idx % 3) * 100);
+          revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
-    reveals.forEach(r => obs.observe(r));
+    }, { threshold: 0.08 });
 
-    // Skill bar animation
-    const barObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelectorAll('.sb-fill').forEach(bar => {
-            bar.style.width = bar.dataset.pct + '%';
-          });
-          barObs.unobserve(e.target);
-        }
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // 6. Interactive Project Category Filtering
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('#projectsContainer > div');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.getAttribute('data-filter');
+
+        projectCards.forEach(card => {
+          const category = card.getAttribute('data-category');
+          if (filter === 'all' || category === filter) {
+            card.style.display = 'flex';
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, 50);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 300);
+          }
+        });
       });
-    }, { threshold: 0.3 });
-    document.querySelectorAll('.skill-bars').forEach(el => barObs.observe(el));
+    });
   </script>
 </body>
+
 </html>
